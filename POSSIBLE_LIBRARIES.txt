@@ -1,0 +1,9 @@
+biblioteki js do funkcjonalnych tabel
+https://github.com/frappe/datatable - faworyt
+https://handsontable.com/
+http://tabulator.info/
+https://github.com/future-architect/cheetah-grid
+
+biblioteki js do przesuwania:
+https://www.cssscript.com/performant-drag-drop/
+https://www.jqueryscript.net/other/drag-drop-draggabilly.html

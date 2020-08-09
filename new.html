@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+</head>
+<link rel="stylesheet" type="text/css" href="styles.css">
+<body>
+
+<h1>Data tables</h1>
+<form class="formcreate">
+    <label for="tabName">Insert table name</label><br/>
+    <input type="text" id="tabName" name="name">
+    <label for="tabName">Or edit table (type id in the field)</label>
+    <input type="text" id="tabId" name="tabId">
+    <button type="button" id="editTableByIdButton"  onclick ="editTableById()">Get</button><br/>
+    <label for="colNames">Insert columns headers separated with ";", first inputs, then outputs:</label><br/>
+    <input type="text" id="colNames" name="cols">
+    <input type="text" id="argNames" name="args"><br/>
+
+    <label for="rowCount">number of rows</label><br/>
+    <input type="text" id="rowCount" default="3">
+    <button type="button" id="addButton" onclick ="setupMainDiv()">Add table</button>
+</form>
+<br>
+<button type="button" onclick = "toJson()">download .json file</button>
+<input type="file" id="selectFiles" value="Import" />
+<button type="button" id="import" onclick = "fromJson()">upload .json file</button>
+<br/>
+<p>Hold green element do drag table</p>
+<br>
+<button type="button" id="undo" onclick = "undo()">undo</button>
+<button type="button" id="redo" onclick = "redo()">redo</button>
+<br/>
+<p>
+    <label for="editField">Edit field :</label>
+    <input type = "text" id ="editField"/>
+    <button type="button" id="deleteModeButton"  onclick ="switchDeleteMode()">Delete mode</button>
+</p>
+<canvas id="canvas" width="3000" height="1500">Your browser does not support the HTML canvas tag.</canvas>
+
+
+
+
+
+
+
+<script src="newTable.js"></script>
+<script src="draggable.js"></script>
+<script src="changeTable.js"></script>
+<script src="connections.js"></script>
+<script src="json.js"></script>
+<script src="history.js"></script>
+
+</body>
+</html>
