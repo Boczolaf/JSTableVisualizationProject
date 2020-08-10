@@ -23,32 +23,45 @@ function reDrawArrows(index){
     let connections;
     let elementToConnectTo;
     let uniques = [];
+    let numberOfCellsToCheck = 1;
     for(let i =0; i<=index;i++){
         mainDiv = document.getElementById("divTable"+i);
         if(mainDiv !== null){
             table = mainDiv.childNodes[1];
             rows = table.rows;
+            let typeOfTable = rows[0].cells[rows[0].cells.length-1].id.split("/")[1];
+            typeOfTable = typeOfTable.localeCompare("minor") !== 0;
             for(let j =1; j<rows.length;j++){
-                cell = rows[j].cells[rows[j].cells.length-1];
-                connections = cell.innerText.split(";");
-                if(connections[0]!=="" && connections[0]!==" "){
-                    for(let k = 0;k<connections.length;k++){
-                        elementToConnectTo = document.getElementById(connections[k])
-                        if(elementToConnectTo!==null){
-                            //check if you are not connecting to the table cell is in
-                            if(!(cell.parentElement.parentElement.parentElement.parentElement.id.localeCompare(connections[k])===0)){
-                                if(!uniques.includes(connections[k])){
-                                    uniques.push(connections[k]);
-                                    connectElements(cell,elementToConnectTo);
+                if(typeOfTable){
+                    numberOfCellsToCheck = 2;
+                }
+                else{
+                    numberOfCellsToCheck = 1;
+                }
+                for(let b = 0; b<numberOfCellsToCheck;b++) {
+                    cell = rows[j].cells[rows[j].cells.length - 1 - b];
+                    connections = cell.innerText.split(";");
+                    if (connections[0] !== "" && connections[0] !== " ") {
+                        for (let k = 0; k < connections.length; k++) {
+                            elementToConnectTo = document.getElementById(connections[k])
+                            if (elementToConnectTo !== null) {
+                                //check if you are not connecting to the table cell is in
+                                if (!(cell.parentElement.parentElement.parentElement.parentElement.id.localeCompare(connections[k]) === 0)) {
+                                    if (!uniques.includes(connections[k])) {
+                                        uniques.push(connections[k]);
+                                        if(b ===1){
+                                            cell = rows[j].cells[rows[j].cells.length - 1];
+                                        }
+                                        connectElements(cell, elementToConnectTo);
+                                    }
+                                } else {
+                                    console.log("Element can't be connected to itself!")
                                 }
                             }
-                            else{
-                                console.log("Element can't be connected to itself!")
-                            }
-                        }
 
+                        }
+                        uniques = [];
                     }
-                    uniques =[];
                 }
             }
 

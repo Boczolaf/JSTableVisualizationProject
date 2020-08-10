@@ -1,6 +1,8 @@
 function editTableById() {
     editingTable = true;
     let id = document.getElementById("tabId").value;
+    document.getElementById("tableType").style.visibility = "hidden";
+    document.getElementById("tableTypeText").style.visibility = "hidden";
     if (id) {
         let table = document.getElementById(id);
         if(typeof table !== 'undefined') {
@@ -17,8 +19,10 @@ function editTableById() {
 function changeDiv() {
     editingTable = false;
     document.getElementById("addButton").innerText = "Add table";
+    document.getElementById("tableType").style.visibility = "visible";
+    document.getElementById("tableTypeText").style.visibility = "visible";
     document.getElementById("addButton").onclick = function () {
-        setupMainDiv()
+    setupMainDiv()
     };
 
     let id = document.getElementById("tabId").value;
@@ -27,6 +31,8 @@ function changeDiv() {
     let headerDiv = mainDiv.childNodes[0];
     let table = mainDiv.childNodes[1];
     let rows = table.rows;
+    let typeOfTable = rows[0].cells[rows[0].cells.length-1].id.split("/")[1];
+    typeOfTable = typeOfTable.localeCompare("minor") !== 0;
     headerDiv.innerText = document.getElementById("tabName").value + "(id:" + id + ")";
     createDeleteButton(headerDiv, "header");
     //adding columns
@@ -72,27 +78,34 @@ function changeDiv() {
             }
         }
         //now adding out
+        let indexToInsert;
         if(!(colsToAddOut[0].localeCompare("")===0)) {
-            for (let i = 0; i < rows.length; i++) {
-                for (let m = 0; m < colsToAddOut.length; m++) {
-                    cell = rows[i].insertCell(rows[i].cells.length - 1);
-                    if (i === 0) {
-                        setOutColumnCellForAdding(cell, colsToAddOut[m], table);
-                    } else {
-                        setNormalCellForAdding(cell);
-                        if (rows[0].cells.length - 1 === 0) {
-                            cell.id = table.id + "/" + "row" + i;
+        for (let i = 0; i < rows.length; i++) {
+            for (let m = 0; m < colsToAddOut.length; m++) {
+                indexToInsert = rows[i].cells.length - 1;
+                if(typeOfTable){
+                    indexToInsert = rows[i].cells.length - 2;
+                }
+                cell = rows[i].insertCell(indexToInsert);
+                if (i === 0) {
+                    setOutColumnCellForAdding(cell, colsToAddOut[m], table);
+                } else {
+                    setNormalCellForAdding(cell);
+                    if (rows[0].cells.length - 1 === 0) {
+                        cell.id = table.id + "/" + "row" + i;
 
-                            createDeleteButton(cell, "row");
-                        }
+                        createDeleteButton(cell, "row");
                     }
                 }
             }
+        }
         }
     }
     //adding rows
     let numberOfRows = document.getElementById("rowCount").value;
     let row;
+    let connectionId = 1;
+    let startingRowLength = table.rows.length;
     if(typeof numberOfRows !== 'undefined'){
         if(parseInt(numberOfRows)){
             for(let i =0; i<numberOfRows;i++){
@@ -103,6 +116,13 @@ function changeDiv() {
                     if(j===0){
                         cell.id = table.id + "/" + "row" + (rows.length-1);
                         createDeleteButton(cell, "row");
+                    }
+                    else if(j===rows[0].cells.length-1 && !typeOfTable){
+                        cell.id = table.id + "/" + "connection" + (rows.length-1);
+                    }
+                    else if((j===rows[0].cells.length-2 || j===rows[0].cells.length-1) && typeOfTable){
+                        cell.id = table.id + "/" + "connection" + (startingRowLength + connectionId);
+                        connectionId++;
                     }
                 }
             }

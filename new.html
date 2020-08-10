@@ -13,6 +13,10 @@
     <label for="tabName">Or edit table (type id in the field)</label>
     <input type="text" id="tabId" name="tabId">
     <button type="button" id="editTableByIdButton"  onclick ="editTableById()">Get</button><br/>
+    <label class="switch">
+        <input type="checkbox" id = "tableType">
+        <span id = "tableTypeText">Type of table (if checked major)</span>
+    </label><br/>
     <label for="colNames">Insert columns headers separated with ";", first inputs, then outputs:</label><br/>
     <input type="text" id="colNames" name="cols">
     <input type="text" id="argNames" name="args"><br/>
@@ -26,7 +30,7 @@
 <input type="file" id="selectFiles" value="Import" />
 <button type="button" id="import" onclick = "fromJson()">upload .json file</button>
 <br/>
-<p>Hold green element do drag table</p>
+<p>Hold green or purple element do drag table. Green tables are minor, the purple are major</p>
 <br>
 <button type="button" id="undo" onclick = "undo()">undo</button>
 <button type="button" id="redo" onclick = "redo()">redo</button>

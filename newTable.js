@@ -6,6 +6,7 @@ let red = "#A52A2A";
 let lightRed = "#FF0000";
 let white = "#FFFFFF";
 let lightGreen = "#228B22";
+let lightPurple = "#cc00ff"
 let black = "#000000";
 let blue = "#6495ED";
 let startValue = " ";
@@ -32,13 +33,20 @@ function setupMainDiv() {
 function setupHeaderDiv(index, value) {
     let element = document.createElement("div");
     let name = document.getElementById("tabName").value;
+    let checkedType = document.getElementById("tableType").checked;
     if (!name) {
         name = "Click here to move";
     }
     element.style.cursor = "move";
     element.style.padding = "10px";
     element.style.zIndex = "10";
-    element.style.backgroundColor = lightGreen;
+
+    if(checkedType){
+        element.style.backgroundColor = lightPurple;
+    }
+    else{
+        element.style.backgroundColor = lightGreen;
+    }
     element.style.color = white;
     element.style.display = "inline-block";
     element.style.boxSizing = "border-box";
@@ -54,6 +62,7 @@ function setupHeaderDiv(index, value) {
 }
 function createNewTable(index) {
     let table = document.createElement("table");
+    let checkedType = document.getElementById("tableType").checked;
     table.id = "table" + index;
     table.style.border = "thin solid #000000"
     table.style.borderCollapse = "collapse";
@@ -107,14 +116,29 @@ function createNewTable(index) {
     cell = row.insertCell(rightSideValues.length + leftSideValues.length);
     cell.style.backgroundColor = white;
     cell.style.padding = "20px";
-    cell.innerText = "Connections(separated by ;)";
+    cell.innerText = "Connections to minor(;=separator)";
     cell.style.border = "thin solid #000000";
+    cell.id = table.id + "/minor";
+    if(checkedType){
+        cell.id = "";
+        cell = row.insertCell(rightSideValues.length + leftSideValues.length +1);
+        cell.id = table.id + "/major";
+        cell.style.backgroundColor = white;
+        cell.style.padding = "20px";
+        cell.innerText = "Connections to major(;=separator)";
+        cell.style.border = "thin solid #000000";
+    }
     //entering rest of rows
     let j;
     let h = 0;
+    let connectionIndex = 0;
+    let totalLength = rightSideValues.length + leftSideValues.length + 1;
+    if(checkedType){
+        totalLength++;
+    }
     for (i = 1; i < rows + 1; i++) {
         row = table.insertRow(i)
-        for (j = 0; j < rightSideValues.length + leftSideValues.length + 1; j++) {
+        for (j = 0; j < totalLength; j++) {
             cell = row.insertCell(j)
             cell.id = table.id + "/cell" + h;
             h++;
@@ -122,14 +146,16 @@ function createNewTable(index) {
             cell.innerText = startValue;
             cell.style.padding = "20px";
             cell.style.border = "thin solid #000000";
-
             //creating invisible button that shows in deletion mode
             if (j === 0) {
                 cell.id = table.id + "/" + "row" + i;
                 createDeleteButton(cell, "row");
             }
-            if(j===rightSideValues.length + leftSideValues.length){
-                cell.id = table.id + "/" + "connection" + i;
+            if(((j===totalLength-2 || j===totalLength-1)  && checkedType )
+                || (!checkedType && j===(totalLength-1))
+            ){
+                cell.id = table.id + "/" + "connection" + connectionIndex;
+                connectionIndex++;
                 cell.setAttribute('onclick','onClickConnection(this)');
             }
             else{
