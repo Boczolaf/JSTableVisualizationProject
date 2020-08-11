@@ -159,7 +159,14 @@ function setNormalCellForAdding(cell) {
     cell.style.border = "thin solid #000000";
     cell.setAttribute('onclick', 'onClick(this)');
 }
-
+function setTopRowIdCell(row){
+    let cell;
+    cell = row.insertCell(0);
+    cell.style.padding = "20px";
+    cell.innerText = "Row id's";
+    cell.style.border = "thin solid #000000";
+    cell.style.backgroundColor = white;
+}
 function cleanUpWrongButtons(table){
     let rows = table.rows;
     for(let i = 1;i<rows.length;i++){

@@ -21,7 +21,7 @@ function setupMainDiv() {
     let currIndex = getNextIndex();
     div.id = "divTable" + currIndex;
     div.style.position = "absolute";
-    div.appendChild(setupHeaderDiv(currIndex,""));
+    div.appendChild(setupHeaderDiv(currIndex,"","null"));
     div.appendChild(createNewTable(currIndex));
     document.body.insertBefore(div, document.getElementById("canvas"));
     dragElement(document.getElementById(div.id));
@@ -30,10 +30,16 @@ function setupMainDiv() {
     addToMemory(["changedTable",[oldTable,newTable],[div.id,div.getClientRects()]]);
 }
 
-function setupHeaderDiv(index, value) {
+function setupHeaderDiv(index, value, type) {
     let element = document.createElement("div");
     let name = document.getElementById("tabName").value;
-    let checkedType = document.getElementById("tableType").checked;
+    let checkedType;
+    if(type.localeCompare("null")===0) {
+        checkedType = document.getElementById("tableType").checked;
+    }
+    else{
+        checkedType = type.localeCompare("major")===0;
+    }
     if (!name) {
         name = "Click here to move";
     }
@@ -80,13 +86,9 @@ function createNewTable(index) {
     let rightSideValues = rightSide.value.split(";");
     let i;
     let row;
-    row = table.insertRow(0);
     let cell;
-    cell = row.insertCell(0);
-    cell.style.padding = "20px";
-    cell.innerText = "Row id's";
-    cell.style.border = "thin solid #000000";
-    cell.style.backgroundColor = white;
+    row = table.insertRow(0);
+    setTopRowIdCell(row);
 //setting up top of table
     for (i = 1; i < leftSideValues.length+1; i++) {
         cell = row.insertCell(i);
