@@ -86,10 +86,15 @@ function createTableFromContent(id, content,indexOfFirstOut,type){
     let h =0;
     let currIndex;
     let connectionId = 0;
+    let length ;
     for (let i = 0; i< content.length-1;i++) {
         currIndex = i + 1;
         row = table.insertRow();
-        for (let j = 0; j < content[currIndex].length; j++) {
+        length = content[currIndex].length;
+        if(!typeOfTable){
+            length--;
+        }
+        for (let j = 0; j < length; j++) {
             cell = row.insertCell(j);
             cell.style.backgroundColor = white;
             cell.innerText = content[currIndex][j];
