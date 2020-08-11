@@ -13,7 +13,12 @@
 -funkcja redo  
 -zapis struktury tabel do pliku json  
 -odczyt z pliku json do stworzenia struktury tabel  
-
+## Plany na rozwój:
+1. Ergonomia: do przemyślnia i opracowania
+2. Nawigacja z klawiatury
+3. Zapamiętanie pozycji tabel
+4. Wyszukiwanie po nazwie
+5. Łączenie tabel za pocą drag&drop
 ## Źródła i inne
 https://docs.google.com/document/d/1G-Bu3y2FyxGvGvYSgwIfbiWQJuW5nnagwibTRSHJejs/edit?usp=sharing
 https://github.com/frappe/datatable Licencja MIT
