@@ -14,7 +14,7 @@
 -zapis struktury tabel do pliku json  
 -odczyt z pliku json do stworzenia struktury tabel  
 ## Plany na rozwój:
-1. Ergonomia: do przemyślnia i opracowania
+1. Ergonomia
 2. Nawigacja z klawiatury
 3. Zapamiętanie pozycji tabel
 4. Wyszukiwanie po nazwie
