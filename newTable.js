@@ -11,14 +11,14 @@ let black = "#000000";
 let blue = "#6495ED";
 let startValue = " ";
 
-function getIndex() {
+function getNextIndex() {
     index = index + 1;
     return index;
 }
 
 function setupMainDiv() {
     let div = document.createElement("div");
-    let currIndex = getIndex();
+    let currIndex = getNextIndex();
     div.id = "divTable" + currIndex;
     div.style.position = "absolute";
     div.appendChild(setupHeaderDiv(currIndex,""));
@@ -82,9 +82,14 @@ function createNewTable(index) {
     let row;
     row = table.insertRow(0);
     let cell;
+    cell = row.insertCell(0);
+    cell.style.padding = "20px";
+    cell.innerText = "Row id's";
+    cell.style.border = "thin solid #000000";
+    cell.style.backgroundColor = white;
 //setting up top of table
-    for (i = 0; i < leftSideValues.length; i++) {
-        cell = row.insertCell(i)
+    for (i = 1; i < leftSideValues.length+1; i++) {
+        cell = row.insertCell(i);
         cell.style.padding = "20px";
         if (leftSideValues[i]) {
             cell.innerText = leftSideValues[i];
@@ -97,7 +102,7 @@ function createNewTable(index) {
         cell.setAttribute('onclick', 'onClickForFirstRow(this)');
         createDeleteButton(cell, "column");
     }
-    for (i; i < rightSideValues.length + leftSideValues.length; i++) {
+    for (i; i < rightSideValues.length + leftSideValues.length+1; i++) {
         cell = row.insertCell(i)
         cell.style.backgroundColor = white;
         cell.style.padding = "20px";
@@ -113,7 +118,7 @@ function createNewTable(index) {
         createDeleteButton(cell, "column");
 
     }
-    cell = row.insertCell(rightSideValues.length + leftSideValues.length);
+    cell = row.insertCell(rightSideValues.length + leftSideValues.length+1);
     cell.style.backgroundColor = white;
     cell.style.padding = "20px";
     cell.innerText = "Connections to minor(;=separator)";
@@ -121,7 +126,7 @@ function createNewTable(index) {
     cell.id = table.id + "/minor";
     if(checkedType){
         cell.id = "";
-        cell = row.insertCell(rightSideValues.length + leftSideValues.length +1);
+        cell = row.insertCell(rightSideValues.length + leftSideValues.length +2);
         cell.id = table.id + "/major";
         cell.style.backgroundColor = white;
         cell.style.padding = "20px";
@@ -132,7 +137,7 @@ function createNewTable(index) {
     let j;
     let h = 0;
     let connectionIndex = 0;
-    let totalLength = rightSideValues.length + leftSideValues.length + 1;
+    let totalLength = rightSideValues.length + leftSideValues.length + 2;
     if(checkedType){
         totalLength++;
     }
@@ -149,9 +154,10 @@ function createNewTable(index) {
             //creating invisible button that shows in deletion mode
             if (j === 0) {
                 cell.id = table.id + "/" + "row" + i;
+                cell.innerText = cell.id;
                 createDeleteButton(cell, "row");
             }
-            if(((j===totalLength-2 || j===totalLength-1)  && checkedType )
+            else if(((j===totalLength-2 || j===totalLength-1)  && checkedType )
                 || (!checkedType && j===(totalLength-1))
             ){
                 cell.id = table.id + "/" + "connection" + connectionIndex;
@@ -421,4 +427,5 @@ function deleteTable(id) {
     element.parentNode.removeChild(element);
     let newTable = "Empty";
     addToMemory(["changedTable",[oldTable,newTable],[tableId,divTable.getClientRects()]]);
+    reDrawArrows(index);
 }
