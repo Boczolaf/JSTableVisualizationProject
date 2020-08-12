@@ -22,8 +22,9 @@ function createDivTableFromArray(data) {
     let title = data[0];
     let id = data[1];
     let type = data[2];
-    let indexOfFirstOut = data[3];
-    let content = data[4];
+    let tableInfo = data[3][0];
+    let indexOfFirstOut = data[4];
+    let content = data[5];
     let div = document.createElement("div");
     div.id = id;
     let currIndex = parseInt(id.replace("divTable",""));
@@ -33,6 +34,8 @@ function createDivTableFromArray(data) {
     reDrawArrows(index);
     document.body.insertBefore(div, document.getElementById("canvas"));
     dragElement(document.getElementById(div.id));
+    div.style.left = tableInfo.left.toString() + "px";
+    div.style.top = tableInfo.top.toString() + "px";
 
 }
 function createTableFromContent(id, content,indexOfFirstOut,type){
@@ -47,8 +50,12 @@ function createTableFromContent(id, content,indexOfFirstOut,type){
     row = table.insertRow(0);
     let cell;
     setTopRowIdCell(row);
+    let topLength = content[0].length-1;
+    if(typeOfTable){
+        topLength--;
+    }
 //setting up top of table
-    for (let i = 1; i < content[0].length-2; i++) {
+    for (let i = 1; i < topLength; i++) {
         cell = row.insertCell(i)
         cell.style.padding = "20px";
         cell.innerText = content[0][i];
@@ -66,7 +73,7 @@ function createTableFromContent(id, content,indexOfFirstOut,type){
 
     }
     //connections
-    cell = row.insertCell(content[0].length-2);
+    cell = row.insertCell(topLength);
     cell.style.padding = "20px";
     cell.style.border = "thin solid #000000";
     cell.style.backgroundColor = white;
@@ -86,15 +93,10 @@ function createTableFromContent(id, content,indexOfFirstOut,type){
     let h =0;
     let currIndex;
     let connectionId = 0;
-    let length ;
     for (let i = 0; i< content.length-1;i++) {
         currIndex = i + 1;
         row = table.insertRow();
-        length = content[currIndex].length;
-        if(!typeOfTable){
-            length--;
-        }
-        for (let j = 0; j < length; j++) {
+        for (let j = 0; j < content[currIndex].length; j++) {
             cell = row.insertCell(j);
             cell.style.backgroundColor = white;
             cell.innerText = content[currIndex][j];
@@ -142,6 +144,7 @@ function toJson(){
     let dataRows = []
     let dataCells = [];
     let type;
+    let tableInfo;
     json['index'] = index;
     let indexOfFirstOut = "empty";
     let savedIndex = false;
@@ -156,6 +159,8 @@ function toJson(){
             rows = table.rows;
             type = rows[0].cells[rows[0].cells.length-1].id.split("/")[1];
             data.push(type);
+            tableInfo = mainDiv.getClientRects();
+            data.push(tableInfo);
             for(let j =0; j<rows.length;j++){
                 dataCells = []
                 for(let k = 0; k< rows[j].cells.length;k++){
