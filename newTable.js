@@ -199,7 +199,9 @@ function onClick(element) {
     if (element.innerText) {
         input.value = element.innerText;
     }
-
+    else{
+        input.value = "";
+    }
 
 }
 
@@ -221,8 +223,9 @@ function onClickForFirstRow(element) {
     if (element.innerText) {
         input.value = element.innerText;
     }
-
-
+    else{
+        input.value = "";
+    }
 
 }
 function onClickConnection(element) {
@@ -242,6 +245,9 @@ function onClickConnection(element) {
     });
     if (element.innerText) {
         input.value = element.innerText;
+    }
+    else{
+        input.value = "";
     }
 }
 
@@ -340,6 +346,8 @@ function createDeleteButton(cell, type) {
     cell.appendChild(btn);
 }
 function deleteColumn(id) {
+    //to unselect cell (to not cause problems)
+    setCurrentlyChosenCell(currentlyChosenCell);
     let tableInfo = id.split("/");
     let divTableId = tableInfo[0].replace("table","divTable");
     let divTable = document.getElementById(divTableId);
@@ -422,6 +430,8 @@ function mouseHoverColumnOut(id) {
 }
 
 function deleteRow(id) {
+    //to unselect cell (to not cause problems)
+    setCurrentlyChosenCell(currentlyChosenCell);
     let tableInfo = id.split("/");
     let table = document.getElementById(tableInfo[0]);
     let divTableId = tableInfo[0].replace("table","divTable");
@@ -465,6 +475,8 @@ function mouseHoverRow(id,type) {
 }
 
 function deleteTable(id) {
+    //to unselect cell (to not cause problems)
+    setCurrentlyChosenCell(currentlyChosenCell);
     let tableId = id.split("Header")[0];
     let divTable = document.getElementById(tableId);
     let oldTable = divTable.cloneNode(true);
