@@ -1,5 +1,8 @@
 
 function fromJson() {
+    if(typeof currentlyChosenCell !=='string'){
+        setCurrentlyChosenCell(currentlyChosenCell);
+    }
     let files = document.getElementById('selectFiles').files;
     if (files.length <= 0) {
         return false;
@@ -133,6 +136,9 @@ function deleteAllTables() {
 
 }
 function toJson(){
+    if(typeof currentlyChosenCell !=='string'){
+        setCurrentlyChosenCell(currentlyChosenCell);
+    }
     let json={};
     let mainDiv;
     let header;
