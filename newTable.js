@@ -2,6 +2,7 @@ var index = -1;
 var totalNumberOfButtons = 0;
 var deleteMode = false;
 var editingTable = false;
+var currentlyChosenCell = "empty";
 let red = "#A52A2A";
 let lightRed = "#FF0000";
 let white = "#FFFFFF";
@@ -9,7 +10,9 @@ let lightGreen = "#228B22";
 let lightPurple = "#cc00ff"
 let black = "#000000";
 let blue = "#6495ED";
+let lightBlue = "#03a9fc";
 let startValue = " ";
+let input = document.getElementById("editField");
 
 function getNextIndex() {
     index = index + 1;
@@ -175,57 +178,97 @@ function createNewTable(index) {
 }
 
 function onClick(element) {
-    let editField = document.getElementById("editField");
-    let oldValue = element.innerText;
-    let newValue = editField.value;
-    if (newValue && newValue!==oldValue) {
-        //action is array containing: name , arguments used, other necessary info
-        element.innerText = newValue;
-        addToMemory(["changedNormalField",[oldValue,newValue],[element.id]]);
-        element.style.color = white;
-        element.style.color = black;
-        if (element.id.includes("row")) {
-            createDeleteButton(element, "row")
+    setCurrentlyChosenCell(element);
+    refreshInput();
+    input.addEventListener("keyup", function(event) {
+        // Number 13 is the "Enter" key on the keyboard
+        if (event.keyCode === 13) {
+            let oldValue = element.innerText;
+            let newValue = input.value;
+            if (newValue && newValue!==oldValue) {
+                //action is array containing: name , arguments used, other necessary info
+                element.innerText = newValue;
+                addToMemory(["changedNormalField",[oldValue,newValue],[element.id]]);
+                element.style.color = white;
+                element.style.color = black;
+                if (element.id.includes("row")) {
+                    createDeleteButton(element, "row")
+                }
         }
-    } else {
-        if (element.innerText) {
-            editField.value = element.innerText;
-        }
+        }});
+    if (element.innerText) {
+        input.value = element.innerText;
     }
+
 
 }
 
 function onClickForFirstRow(element) {
-    let editField = document.getElementById("editField");
-    let newValue = editField.value;
-    let oldValue = element.innerText;
-    if (newValue && newValue!==oldValue) {
-        addToMemory(["changedFirstRowField",[oldValue,newValue],[element.id]]);
-        element.innerText = newValue
-        createDeleteButton(element, "column");
-    } else {
-        if (element.innerText) {
-            editField.value = element.innerText;
-        }
+    setCurrentlyChosenCell(element);
+    refreshInput();
+    input.addEventListener("keyup", function(event) {
+        // Number 13 is the "Enter" key on the keyboard
+        if (event.keyCode === 13) {
+            let newValue = input.value;
+            let oldValue = element.innerText;
+            if (newValue && newValue!==oldValue) {
+                addToMemory(["changedFirstRowField", [oldValue, newValue], [element.id]]);
+                element.innerText = newValue
+                createDeleteButton(element, "column");
+            }
+            }
+    });
+    if (element.innerText) {
+        input.value = element.innerText;
     }
+
 
 
 }
 function onClickConnection(element) {
-    let editField = document.getElementById("editField");
-    let newValue = editField.value;
-    let oldValue = element.innerText;
-    if (newValue && newValue!==oldValue) {
-        addToMemory(["changedConnectionField",[oldValue,newValue],[element.id]]);
-        element.innerText = newValue
-        reDrawArrows(index);
-    } else {
-        if (element.innerText) {
-            editField.value = element.innerText;
+    setCurrentlyChosenCell(element);
+    refreshInput();
+    input.addEventListener("keyup", function(event) {
+        // Number 13 is the "Enter" key on the keyboard
+        if (event.keyCode === 13) {
+            let newValue = input.value;
+            let oldValue = element.innerText;
+            if (newValue && newValue!==oldValue) {
+                addToMemory(["changedConnectionField", [oldValue, newValue], [element.id]]);
+                element.innerText = newValue
+                reDrawArrows(index);
         }
+        }
+    });
+    if (element.innerText) {
+        input.value = element.innerText;
     }
+}
 
+function setCurrentlyChosenCell(element){
+        if(currentlyChosenCell !== element){
+            if(typeof currentlyChosenCell !== "string"){
+                currentlyChosenCell.style.borderColor = black;
+                currentlyChosenCell.style.border = "solid thin";
+            }
+            currentlyChosenCell = element;
+            currentlyChosenCell.style.border = "solid thick";
+            currentlyChosenCell.style.borderColor = lightBlue;
+        }
+        else {
+            currentlyChosenCell = "empty";
+            element.style.borderColor = black;
+            element.style.border = "solid thin";
+            //empty the function on input
+            refreshInput();
+        }
 
+}
+
+function refreshInput(){
+    let new_element = input.cloneNode(true);
+    input.parentNode.replaceChild(new_element, input);
+    input = document.getElementById("editField");
 }
 
 function switchDeleteMode() {
