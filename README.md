@@ -21,4 +21,4 @@
 5. Łączenie tabel za pocą drag&drop
 ## Źródła i inne
 https://docs.google.com/document/d/1G-Bu3y2FyxGvGvYSgwIfbiWQJuW5nnagwibTRSHJejs/edit?usp=sharing
-https://github.com/frappe/datatable Licencja MIT
+
