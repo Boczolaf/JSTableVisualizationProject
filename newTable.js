@@ -94,36 +94,42 @@ function createNewTable(index) {
     setTopRowIdCell(row);
 //setting up top of table
     for (i = 1; i < leftSideValues.length+1; i++) {
-        cell = row.insertCell(i);
-        cell.style.padding = "20px";
         if (leftSideValues[i]) {
+            cell = row.insertCell(i);
+            cell.style.padding = "20px";
             cell.innerText = leftSideValues[i];
-        } else {
-            cell.innerText = "Example input";
+            cell.style.border = "thin solid #000000";
+            cell.style.backgroundColor = blue;
+            cell.id = table.id + "/" + "column" + i + "/" + "in";
+            cell.setAttribute('onclick', 'onClickForFirstRow(this)');
+            createDeleteButton(cell, "column");
+
         }
-        cell.style.border = "thin solid #000000";
-        cell.style.backgroundColor = blue;
-        cell.id = table.id + "/" + "column" + i + "/" + "in";
-        cell.setAttribute('onclick', 'onClickForFirstRow(this)');
-        createDeleteButton(cell, "column");
     }
     for (i; i < rightSideValues.length + leftSideValues.length+1; i++) {
-        cell = row.insertCell(i)
-        cell.style.backgroundColor = white;
-        cell.style.padding = "20px";
         if (rightSideValues[i - leftSideValues.length]) {
+            cell = row.insertCell(i)
+            cell.style.backgroundColor = white;
+            cell.style.padding = "20px";
             cell.innerText = rightSideValues[i - leftSideValues.length];
-        } else {
-            cell.innerText = "Example output"
+            cell.style.border = "thin solid #000000";
+            cell.style.backgroundColor = red;
+            cell.id = table.id + "/" + "column" + i + "/" + "out";
+            cell.setAttribute('onclick', 'onClickForFirstRow(this)');
+            createDeleteButton(cell, "column");
         }
-        cell.style.border = "thin solid #000000";
-        cell.style.backgroundColor = red;
-        cell.id = table.id + "/" + "column" + i + "/" + "out";
-        cell.setAttribute('onclick', 'onClickForFirstRow(this)');
-        createDeleteButton(cell, "column");
 
     }
-    cell = row.insertCell(rightSideValues.length + leftSideValues.length+1);
+    let totalTopLength = 0;
+    if(leftSideValues[0].localeCompare("") ===1){
+        totalTopLength += leftSideValues.length;
+    }
+    if(rightSideValues[0].localeCompare("") ===1){
+        console.log("right");
+        totalTopLength += rightSideValues.length;
+    }
+    totalTopLength +=1;
+    cell = row.insertCell(totalTopLength);
     cell.style.backgroundColor = white;
     cell.style.padding = "20px";
     cell.innerText = "Connections to minor(;=separator)";
@@ -142,7 +148,7 @@ function createNewTable(index) {
     let j;
     let h = 0;
     let connectionIndex = 0;
-    let totalLength = rightSideValues.length + leftSideValues.length + 2;
+    let totalLength = totalTopLength  + 1;
     if(checkedType){
         totalLength++;
     }

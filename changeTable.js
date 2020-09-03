@@ -40,7 +40,6 @@ function changeDiv() {
     let colsToAddOut = document.getElementById("argNames").value.split(";");
     let cell;
     if (colsToAddIn || colsToAddOut) {
-
         let typeOfNext;
         //getting to right spot (first adding in then out)
         for (let i = 0; i < rows[0].cells.length; i++) {
@@ -49,12 +48,12 @@ function changeDiv() {
             } else {
                 typeOfNext = rows[0].cells[i].id.split("/")[2];
             }
-            if (rows[0].cells.length === 1 || (!(colsToAddIn[0].localeCompare("") === 0) && typeOfNext.localeCompare("out") === 0)) {
+            if (rows[0].cells.length === 2 || (!(colsToAddIn[0].localeCompare("") === 0) && typeOfNext.localeCompare("out") === 0)) {
                 for (let k = 0; k < colsToAddIn.length; k++) {
-                    cell = rows[0].insertCell(k);
+                    cell = rows[0].insertCell(k+1);
                     setInColumnCellForAdding(cell, colsToAddIn[k], table);
                     for (let j = 1; j < rows.length; j++) {
-                        cell = rows[j].insertCell(k);
+                        cell = rows[j].insertCell(k+1);
                         setNormalCellForAdding(cell);
                         if (k === 0) {
                             cell.id = table.id + "/" + "row" + j;
@@ -115,6 +114,7 @@ function changeDiv() {
                     setNormalCellForAdding(cell);
                     if(j===0){
                         cell.id = table.id + "/" + "row" + (rows.length-1);
+                        cell.innerText = cell.id;
                         createDeleteButton(cell, "row");
                     }
                     else if(j===rows[0].cells.length-1 && !typeOfTable){
