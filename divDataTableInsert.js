@@ -13,7 +13,7 @@ function insertDataTables(divId){
     div.appendChild(form);
     tmpInput = createInput("text","tabId"+divIndex,"tabId"+divIndex);
     form.appendChild(tmpInput);
-    form.appendChild(createButton("button","editTableByIdButton"+ divIndex,function () {editTableById()},"Get"));
+    form.appendChild(createButton("button","editTableByIdButton"+ divIndex,"editTableById()","Get"));
     form.appendChild(createBr());
     tmp = document.createElement("label");
     tmp.class = "switch";
@@ -35,25 +35,25 @@ function insertDataTables(divId){
     form.appendChild(createBr());
     form.appendChild(tmpInput);
     form.appendChild(createBr());
-    form.appendChild(createButton("button","addButton"+divIndex,function () {setupMainDiv()}," Add table"));
+    form.appendChild(createButton("button","addButton"+divIndex,"setupMainDiv()"," Add table"));
     div.appendChild(createBr());
     div.appendChild(createButton("button","downloadJson" + divIndex,"toJson()","download .json file"));
     tmpInput = document.createElement("input");
     tmpInput.type = "file";
     tmpInput.id = "selectFiles" + divIndex;
     div.appendChild(tmpInput);
-    div.appendChild(createButton("button","import" + divIndex,function () {fromJson()},"upload .json file"));
+    div.appendChild(createButton("button","import" + divIndex,"fromJson()","upload .json file"));
     div.appendChild(createBr());
     tmp = document.createElement("p");
     tmp.innerText = "Hold green or purple element do drag table. Green tables are minor, the purple are major";
     div.appendChild(tmp);
     div.appendChild(createBr());
-    div.appendChild(createButton("button","undo" + divIndex,function () {undo()},"undo"));
-    div.appendChild(createButton("button","redo" + divIndex,function () {redo()},"redo"));
+    div.appendChild(createButton("button","undo" + divIndex,"undo()","undo"));
+    div.appendChild(createButton("button","redo" + divIndex,"redo()","redo"));
     tmp = document.createElement("p");
     tmp.appendChild(createLabel("editField" + divIndex,"Edit field : "));
     tmp.appendChild(createInput("text","editField" +divIndex));
-    tmp.appendChild(createButton("button","deleteModeButton"+ divIndex,function() {switchDeleteMode()},"Delete mode"));
+    tmp.appendChild(createButton("button","deleteModeButton"+ divIndex,"switchDeleteMode()","Delete mode"));
     div.appendChild(tmp);
     tmp = document.createElement("canvas");
     tmp.id = "canvas" + divIndex;
@@ -83,7 +83,7 @@ function createButton(type, id, onClick, innerText){
     let button = document.createElement("button");
     button.type = type;
     button.id = id;
-    button.onclick = onClick;
+    button.setAttribute('onclick',onClick);
     button.innerText = innerText;
     return button;
 }
