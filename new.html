@@ -7,7 +7,7 @@
 <body onload = "loadMacros()">
 
 <h1>Data tables</h1>
-<form class="formcreate">
+<form class="formCreate">
     <label for="tabName">Insert table name</label><br/>
     <input type="text" id="tabName" name="name">
     <label for="tabName">Or edit table (type id in the field)</label>
@@ -25,7 +25,7 @@
     <input type="text" id="rowCount" default="3">
     <button type="button" id="addButton" onclick ="setupMainDiv()">Add table</button>
 </form>
-<br>
+<br/>
 <button type="button" onclick = "toJson()">download .json file</button>
 <input type="file" id="selectFiles" value="Import" />
 <button type="button" id="import" onclick = "fromJson()">upload .json file</button>
@@ -41,6 +41,7 @@
     <button type="button" id="deleteModeButton"  onclick ="switchDeleteMode()">Delete mode</button>
 </p>
 <canvas id="canvas" width="3000" height="1500">Your browser does not support the HTML canvas tag.</canvas>
+<div id = "MyNewDiv0">Boo</div>
 
 
 
@@ -55,5 +56,6 @@
 <script src="json.js"></script>
 <script src="history.js"></script>
 <script src="keyboardMovement.js"></script>
+<script src ="divDataTableInsert.js"></script>
 </body>
 </html>
