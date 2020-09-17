@@ -12,7 +12,7 @@ let black = "#000000";
 let blue = "#6495ED";
 let lightBlue = "#03a9fc";
 let startValue = " ";
-let input = document.getElementById("editField");
+let input ;
 
 function getNextIndex() {
     index = index + 1;
@@ -281,6 +281,7 @@ function setCurrentlyChosenCell(element){
 }
 
 function refreshInput(){
+    input = document.getElementById("editField");
     let new_element = input.cloneNode(true);
     input.parentNode.replaceChild(new_element, input);
     input = document.getElementById("editField");
