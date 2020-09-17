@@ -90,14 +90,25 @@ function createNewTable(index) {
     let i;
     let row;
     let cell;
+    let totalTopLength = 0;
     row = table.insertRow(0);
     setTopRowIdCell(row);
+    let leftLength =leftSideValues.length;
+    if(leftSideValues[0].localeCompare("") ===1){
+        totalTopLength += leftSideValues.length;
+    }
+    else{
+        leftLength=0;
+    }
+    if(rightSideValues[0].localeCompare("") ===1){
+        totalTopLength += rightSideValues.length;
+    }
 //setting up top of table
-    for (i = 1; i < leftSideValues.length+1; i++) {
-        if (leftSideValues[i]) {
+    for (i = 1; i < leftLength+1; i++) {
+        if (leftSideValues[i-1]) {
             cell = row.insertCell(i);
             cell.style.padding = "20px";
-            cell.innerText = leftSideValues[i];
+            cell.innerText = leftSideValues[i-1];
             cell.style.border = "thin solid #000000";
             cell.style.backgroundColor = blue;
             cell.id = table.id + "/" + "column" + i + "/" + "in";
@@ -106,12 +117,12 @@ function createNewTable(index) {
 
         }
     }
-    for (i; i < rightSideValues.length + leftSideValues.length+1; i++) {
-        if (rightSideValues[i - leftSideValues.length]) {
+    for (i; i < totalTopLength+1; i++) {
+        if (rightSideValues[i - leftSideValues.length-1]) {
             cell = row.insertCell(i)
             cell.style.backgroundColor = white;
             cell.style.padding = "20px";
-            cell.innerText = rightSideValues[i - leftSideValues.length];
+            cell.innerText = rightSideValues[i - leftSideValues.length-1];
             cell.style.border = "thin solid #000000";
             cell.style.backgroundColor = red;
             cell.id = table.id + "/" + "column" + i + "/" + "out";
@@ -120,15 +131,7 @@ function createNewTable(index) {
         }
 
     }
-    let totalTopLength = 0;
-    if(leftSideValues[0].localeCompare("") ===1){
-        totalTopLength += leftSideValues.length;
-    }
-    if(rightSideValues[0].localeCompare("") ===1){
-        console.log("right");
-        totalTopLength += rightSideValues.length;
-    }
-    totalTopLength +=1;
+    totalTopLength =row.cells.length;
     cell = row.insertCell(totalTopLength);
     cell.style.backgroundColor = white;
     cell.style.padding = "20px";
@@ -200,7 +203,7 @@ function onClick(element) {
                 if (element.id.includes("row")) {
                     createDeleteButton(element, "row")
                 }
-        }
+            }
         }});
     if (element.innerText) {
         input.value = element.innerText;
@@ -224,7 +227,7 @@ function onClickForFirstRow(element) {
                 element.innerText = newValue
                 createDeleteButton(element, "column");
             }
-            }
+        }
     });
     if (element.innerText) {
         input.value = element.innerText;
@@ -246,7 +249,7 @@ function onClickConnection(element) {
                 addToMemory(["changedConnectionField", [oldValue, newValue], [element.id]]);
                 element.innerText = newValue
                 reDrawArrows(index);
-        }
+            }
         }
     });
     if (element.innerText) {
@@ -258,22 +261,22 @@ function onClickConnection(element) {
 }
 
 function setCurrentlyChosenCell(element){
-        if(currentlyChosenCell !== element){
-            if(typeof currentlyChosenCell !== "string"){
-                currentlyChosenCell.style.borderColor = black;
-                currentlyChosenCell.style.border = "solid thin";
-            }
-            currentlyChosenCell = element;
-            currentlyChosenCell.style.border = "solid thick";
-            currentlyChosenCell.style.borderColor = lightBlue;
+    if(currentlyChosenCell !== element){
+        if(typeof currentlyChosenCell !== "string"){
+            currentlyChosenCell.style.borderColor = black;
+            currentlyChosenCell.style.border = "solid thin";
         }
-        else {
-            currentlyChosenCell = "empty";
-            element.style.borderColor = black;
-            element.style.border = "solid thin";
-            //empty the function on input
-            refreshInput();
-        }
+        currentlyChosenCell = element;
+        currentlyChosenCell.style.border = "solid thick";
+        currentlyChosenCell.style.borderColor = lightBlue;
+    }
+    else {
+        currentlyChosenCell = "empty";
+        element.style.borderColor = black;
+        element.style.border = "solid thin";
+        //empty the function on input
+        refreshInput();
+    }
 
 }
 
