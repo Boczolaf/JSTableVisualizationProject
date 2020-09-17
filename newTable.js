@@ -168,7 +168,7 @@ function createNewTable(index) {
             //creating invisible button that shows in deletion mode
             if (j === 0) {
                 cell.id = table.id + "/" + "row" + i;
-                cell.innerText = cell.id;
+                cell.innerText = "divTable" + index+ "/" + "row" + i;
                 createDeleteButton(cell, "row");
             }
             else if(((j===totalLength-2 || j===totalLength-1)  && checkedType )
