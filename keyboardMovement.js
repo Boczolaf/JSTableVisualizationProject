@@ -4,16 +4,9 @@ function leftArrowPressed() {
         let row = currentlyChosenCell.parentElement;
         if(index !== 0){
             let cell = row.cells[index];
-            let type = cell.id.split("/")[1];
-            if(type.includes("cell")){
-                onClick(cell);
-            }
-            else if(type.includes("connection")){
-                onClickConnection(cell);
-            }
-            else if(type.includes("column")){
-                onClickForFirstRow(cell);
-            }
+            let divId = getParentIdFromCell(cell);
+            let parentId = getDivInnerId(divId);
+            onClickWithParentId(cell,parentId);
         }
     }
 }
@@ -25,17 +18,22 @@ function rightArrowPressed() {
         let row = currentlyChosenCell.parentElement;
         if(index !== row.cells.length){
             let cell = row.cells[index];
-            let type = cell.id.split("/")[1];
-            if(type.includes("cell")){
-                onClick(cell);
-            }
-            else if(type.includes("connection")){
-                onClickConnection(cell);
-            }
-            else if(type.includes("column")){
-                onClickForFirstRow(cell);
-            }
+            let divId = getParentIdFromCell(cell);
+            let parentId = getDivInnerId(divId);
+            onClickWithParentId(cell,parentId);
         }
+    }
+}
+function onClickWithParentId(cell,parentId){
+    let type = cell.id.split("/")[1];
+    if(type.includes("cell")){
+        onClick(cell,parentId);
+    }
+    else if(type.includes("connection")){
+        onClickConnection(cell,parentId);
+    }
+    else if(type.includes("column")){
+        onClickForFirstRow(cell,parentId);
     }
 }
 
@@ -44,9 +42,11 @@ function upArrowPressed() {
         let index = currentlyChosenCell.cellIndex;
         let rowIndex = currentlyChosenCell.parentElement.rowIndex-1;
         let table = currentlyChosenCell.parentElement.parentElement;
+        let divId = getParentIdFromCell(currentlyChosenCell)
+        let parentId = getDivInnerId(divId);
         if(rowIndex !== 0){
             let cell = table.rows[rowIndex].cells[index];
-            changeSelectedCellForArrowMovement(cell);
+            changeSelectedCellForArrowMovement(cell,parentId);
     }
 }
 }
@@ -57,23 +57,27 @@ function downArrowPressed() {
         let index = currentlyChosenCell.cellIndex;
         let rowIndex = currentlyChosenCell.parentElement.rowIndex+1;
         let table = currentlyChosenCell.parentElement.parentElement;
+        let divId = getParentIdFromCell(currentlyChosenCell)
+        let parentId = getDivInnerId(divId);
         if(rowIndex !== table.rows.length){
             let cell = table.rows[rowIndex].cells[index];
-            changeSelectedCellForArrowMovement(cell);
+            changeSelectedCellForArrowMovement(cell,parentId);
         }
     }
 }
 
 function changeSelectedCellForArrowMovement(cell){
     let type = cell.id.split("/")[1];
+    let divId =getParentIdFromCell(cell);
+    let parentId = getDivInnerId(divId);
     if(type.includes("cell")){
-        onClick(cell);
+        onClick(cell,parentId);
     }
     else if(type.includes("connection")){
-        onClickConnection(cell);
+        onClickConnection(cell,parentId);
     }
     else if(type.includes("column")){
-        onClickForFirstRow(cell);
+        onClickForFirstRow(cell,parentId);
     }
 }
 

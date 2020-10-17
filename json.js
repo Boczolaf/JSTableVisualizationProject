@@ -1,5 +1,5 @@
 
-function fromJson() {
+function fromJson(parentId) {
     if(typeof currentlyChosenCell !=='string'){
         setCurrentlyChosenCell(currentlyChosenCell);
     }
@@ -15,13 +15,13 @@ function fromJson() {
         index = result['index'];
         let dataToProcess = result['data'];
         for(let i =0; i< dataToProcess.length;i++){
-            createDivTableFromArray(dataToProcess[i]);
+            createDivTableFromArray(dataToProcess[i],parentId);
         }
 
     }
     fr.readAsText(files.item(0));
 }
-function createDivTableFromArray(data) {
+function createDivTableFromArray(data,parentId) {
     let title = data[0];
     let id = data[1];
     let type = data[2];
@@ -33,7 +33,7 @@ function createDivTableFromArray(data) {
     let currIndex = parseInt(id.replace("divTable",""));
     div.style.position = "absolute";
     div.appendChild(setupHeaderDiv(currIndex,title,type));
-    div.appendChild(createTableFromContent(id,content,indexOfFirstOut,type));
+    div.appendChild(createTableFromContent(id,content,indexOfFirstOut,type,parentId));
     reDrawArrows(index);
     document.body.insertBefore(div, document.getElementById("canvas"));
     dragElement(document.getElementById(div.id));
@@ -41,7 +41,7 @@ function createDivTableFromArray(data) {
     div.style.top = tableInfo.top.toString() + "px";
 
 }
-function createTableFromContent(id, content,indexOfFirstOut,type){
+function createTableFromContent(id, content,indexOfFirstOut,type,parentId){
     let table = document.createElement("table");
     let typeOfTable = type.localeCompare("major")===0;
     table.id = id.replace("divTable","table");
@@ -72,7 +72,7 @@ function createTableFromContent(id, content,indexOfFirstOut,type){
             cell.style.backgroundColor = red;
         }
         cell.setAttribute('onclick', 'onClickForFirstRow(this)');
-        createDeleteButton(cell, "column");
+        createDeleteButton(cell, "column",parentId);
 
     }
     //connections
@@ -106,7 +106,7 @@ function createTableFromContent(id, content,indexOfFirstOut,type){
             if (j === 0) {
                 cell.id = table.id + "/row" + i;
                 cell.innerText = cell.id;
-                createDeleteButton(cell, "row");
+                createDeleteButton(cell, "row",parentId);
             } else if ((j === content[currIndex].length - 1 && !typeOfTable)||(typeOfTable &&(j === content[currIndex].length - 1 || j === content[currIndex].length - 2))) {
                 cell.id = table.id + "/connection" + connectionId;
                 connectionId++;
@@ -135,7 +135,7 @@ function deleteAllTables() {
     }
 
 }
-function toJson(){
+function toJson(parentId){
     if(typeof currentlyChosenCell !=='string'){
         setCurrentlyChosenCell(currentlyChosenCell);
     }

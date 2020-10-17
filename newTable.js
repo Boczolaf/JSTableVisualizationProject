@@ -1,7 +1,6 @@
 var index = -1;
 var totalNumberOfButtons = 0;
-var deleteMode = false;
-var editingTable = false;
+var deleteMode = [];
 var currentlyChosenCell = "empty";
 let red = "#A52A2A";
 let lightRed = "#FF0000";
@@ -12,33 +11,103 @@ let black = "#000000";
 let blue = "#6495ED";
 let lightBlue = "#03a9fc";
 let startValue = " ";
-let input ;
+let input =[];
+let allTables = []; //structure in which there is separate table for each parent index with table ids inside
 
+function addTableToAllTables(parentIndex,id){
+    for(let i =0;i<=index;i++){
+        if(allTables[i]) {
+            if (allTables[i][0] === parentIndex) {
+                allTables[i].push(id);
+                return;
+            }
+        }
+    }
+    let tmp = [];
+    tmp.push(parentIndex);
+    tmp.push(id);
+    allTables.push(tmp);
+}
+function checkIfTablesAreInSameDiv(firstId,secondId){
+    let parentIdOfFirst;
+    let parentIdOfSecond;
+    for(let i=0;i<=index;i++){
+        if(parentIdOfFirst && parentIdOfSecond){
+            break;
+        }
+        if(allTables[i]) {
+            for(let j =1;j<allTables[i].length;j++){
+                if(allTables[i][j].localeCompare(firstId)===0){
+                    parentIdOfFirst=allTables[i][0];
+                }
+                if(allTables[i][j].localeCompare(secondId)===0){
+                    parentIdOfSecond=allTables[i][0];
+                }
+            }
+        }
+    }
+    return parentIdOfFirst === parentIdOfSecond;
+}
+function checkIfTableBelongsInDiv(tableId,parentIndex){
+    for(let i =0;i<=index;i++){
+        if(allTables[i]) {
+            for(let j =1;j<allTables[i].length;j++){
+                if(allTables[i][j].localeCompare(tableId)===0){
+                    return allTables[i][0] === parentIndex;
+                }
+
+            }
+        }
+    }
+    return false;
+}
+function getParentIDFromTableId(tableId){
+    for(let i =0;i<=index;i++){
+        if(allTables[i]) {
+            for(let j =1;j<allTables[i].length;j++){
+                if(allTables[i][j].localeCompare(tableId)===0){
+                   return allTables[i][0];
+                }
+
+            }
+        }
+    }
+    return -1;
+}
 function getNextIndex() {
     index = index + 1;
     return index;
 }
+function getInput(parentIndex){
+    for (let i=0;i<input.length;i++){
+        if(input[i][0]===parentIndex){
+            return input[i][1];
+        }
+    }
+}
 
-function setupMainDiv() {
+function setupMainDiv(index) {
+    let parentDiv = document.getElementById(getDivOuterId(index).toString());
     let div = document.createElement("div");
     let currIndex = getNextIndex();
     div.id = "divTable" + currIndex;
     div.style.position = "absolute";
-    div.appendChild(setupHeaderDiv(currIndex,"","null"));
-    div.appendChild(createNewTable(currIndex));
-    document.body.insertBefore(div, document.getElementById("canvas"));
+    div.appendChild(setupHeaderDiv(currIndex,"","null",index));
+    div.appendChild(createNewTable(currIndex,index));
+    parentDiv.insertBefore(div, document.getElementById("canvas"+index));
     dragElement(document.getElementById(div.id));
     let oldTable = "Empty";
     let newTable = div.cloneNode(true);
-    addToMemory(["changedTable",[oldTable,newTable],[div.id,div.getClientRects()]]);
+    addToMemory(index,oldTable,newTable,"changedTable",[div.id,div.getClientRects()]);
+    addTableToAllTables(getDivInnerId(parentDiv.id),div.id);
 }
 
-function setupHeaderDiv(index, value, type) {
+function setupHeaderDiv(index, value, type, parentIndex) {
     let element = document.createElement("div");
-    let name = document.getElementById("tabName").value;
+    let name = document.getElementById("tabName"+parentIndex).value;
     let checkedType;
     if(type.localeCompare("null")===0) {
-        checkedType = document.getElementById("tableType").checked;
+        checkedType = document.getElementById("tableType"+parentIndex).checked;
     }
     else{
         checkedType = type.localeCompare("major")===0;
@@ -66,26 +135,26 @@ function setupHeaderDiv(index, value, type) {
     else {
         element.textContent = value;
     }
-    createDeleteButton(element, "header");
+    createDeleteButton(element, "header",parentIndex);
     return element;
 }
-function createNewTable(index) {
+function createNewTable(index,parentIndex) {
     let table = document.createElement("table");
-    let checkedType = document.getElementById("tableType").checked;
+    let checkedType = document.getElementById("tableType"+parentIndex).checked;
     table.id = "table" + index;
     table.style.border = "thin solid #000000"
     table.style.borderCollapse = "collapse";
     //arguments
     //get number of rows
-    let rows = document.getElementById("rowCount").value;
+    let rows = document.getElementById("rowCount"+parentIndex).value;
     if (!rows) {
-        rows = 3;
+        rows = 0;
     } else {
         rows = parseInt(rows);
     }
-    let leftSide = document.getElementById("colNames");
+    let leftSide = document.getElementById("colNames"+parentIndex);
     let leftSideValues = leftSide.value.split(";");
-    let rightSide = document.getElementById("argNames");
+    let rightSide = document.getElementById("argNames"+parentIndex);
     let rightSideValues = rightSide.value.split(";");
     let i;
     let row;
@@ -112,8 +181,8 @@ function createNewTable(index) {
             cell.style.border = "thin solid #000000";
             cell.style.backgroundColor = blue;
             cell.id = table.id + "/" + "column" + i + "/" + "in";
-            cell.setAttribute('onclick', 'onClickForFirstRow(this)');
-            createDeleteButton(cell, "column");
+            cell.setAttribute('onclick', 'onClickForFirstRow(this,'+parentIndex+')');
+            createDeleteButton(cell, "column",parentIndex);
 
         }
     }
@@ -126,8 +195,8 @@ function createNewTable(index) {
             cell.style.border = "thin solid #000000";
             cell.style.backgroundColor = red;
             cell.id = table.id + "/" + "column" + i + "/" + "out";
-            cell.setAttribute('onclick', 'onClickForFirstRow(this)');
-            createDeleteButton(cell, "column");
+            cell.setAttribute('onclick', 'onClickForFirstRow(this,'+parentIndex+')');
+            createDeleteButton(cell, "column",parentIndex);
         }
 
     }
@@ -140,7 +209,24 @@ function createNewTable(index) {
     cell.id = table.id + "/minor";
     if(checkedType){
         cell.id = "";
-        cell = row.insertCell(rightSideValues.length + leftSideValues.length +2);
+        let leftLen ;
+        let rightLen ;
+        console.log(leftSideValues);
+        console.log(rightSideValues);
+        if(leftSideValues[0].localeCompare("")===0){
+            leftLen = 0;
+        }
+        else{
+            leftLen = leftSideValues.length;
+        }
+        if(rightSideValues[0].localeCompare("")===0){
+            rightLen = 0;
+        }
+        else{
+            rightLen = rightSideValues.length;
+        }
+        let tmp = rightLen+leftLen +2 ;
+        cell = row.insertCell(tmp);
         cell.id = table.id + "/major";
         cell.style.backgroundColor = white;
         cell.style.padding = "20px";
@@ -169,129 +255,135 @@ function createNewTable(index) {
             if (j === 0) {
                 cell.id = table.id + "/" + "row" + i;
                 cell.innerText = "divTable" + index+ "/" + "row" + i;
-                createDeleteButton(cell, "row");
+                createDeleteButton(cell, "row",parentIndex);
             }
             else if(((j===totalLength-2 || j===totalLength-1)  && checkedType )
                 || (!checkedType && j===(totalLength-1))
             ){
                 cell.id = table.id + "/" + "connection" + connectionIndex;
                 connectionIndex++;
-                cell.setAttribute('onclick','onClickConnection(this)');
+                cell.setAttribute('onclick','onClickConnection(this,'+parentIndex+')');
             }
             else{
-                cell.setAttribute('onclick', 'onClick(this)');
+                cell.setAttribute('onclick', 'onClick(this,'+parentIndex+')');
             }
         }
     }
     return table;
 }
 
-function onClick(element) {
+function onClick(element,parentIndex) {
     setCurrentlyChosenCell(element);
-    refreshInput();
-    input.addEventListener("keyup", function(event) {
+    refreshInput(parentIndex);
+    let tmpInput =getInput(parentIndex);
+    tmpInput = document.getElementById(tmpInput);
+    tmpInput.addEventListener("keyup", function(event) {
         // Number 13 is the "Enter" key on the keyboard
         if (event.keyCode === 13) {
             let oldValue = element.innerText;
-            let newValue = input.value;
+            let newValue = tmpInput.value;
             if (newValue && newValue!==oldValue) {
                 //action is array containing: name , arguments used, other necessary info
                 element.innerText = newValue;
-                addToMemory(["changedNormalField",[oldValue,newValue],[element.id]]);
+                addToMemory(parentIndex,oldValue,newValue,"changedNormalField",element.id);
                 element.style.color = white;
                 element.style.color = black;
                 if (element.id.includes("row")) {
-                    createDeleteButton(element, "row")
+                    createDeleteButton(element, "row",parentIndex)
                 }
             }
         }});
     if (element.innerText) {
-        input.value = element.innerText;
+        tmpInput.value = element.innerText;
     }
     else{
-        input.value = "";
+        tmpInput.value = "";
     }
 
 }
 
-function onClickForFirstRow(element) {
+function onClickForFirstRow(element,parentIndex) {
     setCurrentlyChosenCell(element);
-    refreshInput();
-    input.addEventListener("keyup", function(event) {
+    refreshInput(parentIndex);
+    let tmpInput =getInput(parentIndex);
+    tmpInput = document.getElementById(tmpInput);
+    tmpInput.addEventListener("keyup", function(event) {
         // Number 13 is the "Enter" key on the keyboard
         if (event.keyCode === 13) {
-            let newValue = input.value;
+            let newValue = tmpInput.value;
             let oldValue = element.innerText;
             if (newValue && newValue!==oldValue) {
-                addToMemory(["changedFirstRowField", [oldValue, newValue], [element.id]]);
+                addToMemory(parentIndex,oldValue,newValue,"changedFirstRowField",element.id);
                 element.innerText = newValue
-                createDeleteButton(element, "column");
+                createDeleteButton(element, "column",parentIndex);
             }
         }
     });
     if (element.innerText) {
-        input.value = element.innerText;
+        tmpInput.value = element.innerText;
     }
     else{
-        input.value = "";
+        tmpInput.value = "";
     }
 
 }
-function onClickConnection(element) {
+function onClickConnection(element,parentIndex) {
     setCurrentlyChosenCell(element);
-    refreshInput();
-    input.addEventListener("keyup", function(event) {
+    refreshInput(parentIndex);
+    let tmpInput = getInput(parentIndex);
+    tmpInput = document.getElementById(tmpInput);
+    tmpInput.addEventListener("keyup", function(event) {
         // Number 13 is the "Enter" key on the keyboard
         if (event.keyCode === 13) {
-            let newValue = input.value;
+            let newValue = tmpInput.value;
             let oldValue = element.innerText;
             if (newValue && newValue!==oldValue) {
-                addToMemory(["changedConnectionField", [oldValue, newValue], [element.id]]);
+                addToMemory(parentIndex,oldValue,newValue,"changedConnectionField", element.id);
                 element.innerText = newValue
                 reDrawArrows(index);
             }
         }
     });
     if (element.innerText) {
-        input.value = element.innerText;
+        tmpInput.value = element.innerText;
     }
     else{
-        input.value = "";
+        tmpInput.value = "";
     }
 }
 
-function setCurrentlyChosenCell(element){
-    if(currentlyChosenCell !== element){
-        if(typeof currentlyChosenCell !== "string"){
+function setCurrentlyChosenCell(element,parentIndex){
+if(element !== "empty") {
+    if (currentlyChosenCell !== element) {
+        if (typeof currentlyChosenCell !== "string") {
             currentlyChosenCell.style.borderColor = black;
             currentlyChosenCell.style.border = "solid thin";
         }
         currentlyChosenCell = element;
         currentlyChosenCell.style.border = "solid thick";
         currentlyChosenCell.style.borderColor = lightBlue;
-    }
-    else {
+    } else {
         currentlyChosenCell = "empty";
         element.style.borderColor = black;
         element.style.border = "solid thin";
         //empty the function on input
-        refreshInput();
+        refreshInput(parentIndex);
     }
-
+}
 }
 
-function refreshInput(){
-    input = document.getElementById("editField");
-    let new_element = input.cloneNode(true);
-    input.parentNode.replaceChild(new_element, input);
-    input = document.getElementById("editField");
+function refreshInput(parentId){
+    let tmpInput = getInput(parentId);
+    tmpInput = document.getElementById(tmpInput);
+    let new_element = tmpInput.cloneNode(true);
+    tmpInput.parentNode.replaceChild(new_element, tmpInput);
 }
 
-function switchDeleteMode() {
+function switchDeleteMode(index) {
     let btn;
-    deleteMode = !deleteMode;
-    let switchButton = document.getElementById("deleteModeButton");
-    if (deleteMode) {
+    deleteMode[index] = !deleteMode[index];
+    let switchButton = document.getElementById("deleteModeButton"+index);
+    if (deleteMode[index]) {
         switchButton.style.backgroundColor = lightRed;
     } else {
         switchButton.style.backgroundColor = white;
@@ -300,7 +392,7 @@ function switchDeleteMode() {
         btn = document.getElementById("deleteButton" + i);
         if (btn) {
 
-            if (!deleteMode) {
+            if (!deleteMode[index]) {
                 btn.disabled = true;
                 btn.style.visibility = "hidden";
             } else {
@@ -311,12 +403,12 @@ function switchDeleteMode() {
     }
 
 }
-function createDeleteButton(cell, type) {
+function createDeleteButton(cell, type,parentId) {
     let btn = document.createElement('input');
     btn.type = "button";
     btn.className = "btn";
     btn.style.backgroundColor = lightRed;
-    if (!deleteMode) {
+    if (!deleteMode[parentId]) {
         btn.disabled = true;
         btn.style.visibility = "hidden";
     }
@@ -379,11 +471,12 @@ function deleteColumn(id) {
     if (columnToDelete === 0) {
         for (let j = 1; j < rows.length; j++) {
             rows[j].cells[0].id = table.id + "/" + "row" + j;
-            createDeleteButton(rows[j].cells[0], "row");
+            createDeleteButton(rows[j].cells[0], "row",parentId);
         }
     }
     let newTable = divTable.cloneNode(true);
-    addToMemory(["changedTable",[oldTable,newTable],[divTableId,divTable.getClientRects()]]);
+    let parentId = getParentIDFromTableId(divTableId);
+    addToMemory(parentId,oldTable,newTable,"changedTable",[divTableId,divTable.getClientRects()]);
 }
 
 function mouseHoverColumn(id) {
@@ -458,7 +551,8 @@ function deleteRow(id) {
     }
     table.deleteRow(rowToDelete);
     let newTable = divTable.cloneNode(true);
-    addToMemory(["changedTable",[oldTable,newTable],[divTableId,divTable.getClientRects()]]);
+    let parentId = getParentIDFromTableId(divTableId);
+    addToMemory(parentId,oldTable,newTable,"changedTable",[divTableId,divTable.getClientRects()]);
     //to delete changefield
 }
 
@@ -493,6 +587,7 @@ function deleteTable(id) {
     let element = document.getElementById(tableId);
     element.parentNode.removeChild(element);
     let newTable = "Empty";
-    addToMemory(["changedTable",[oldTable,newTable],[tableId,divTable.getClientRects()]]);
+    let parentId = getParentIDFromTableId(tableId);
+    addToMemory(parentId,oldTable,newTable,"changedTable",[divTable.id,divTable.getClientRects()]);
     reDrawArrows(index);
 }
