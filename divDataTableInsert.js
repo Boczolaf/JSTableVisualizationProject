@@ -46,7 +46,7 @@ function insertDataTables(divId){
         div.appendChild(createButton("button", "downloadJson"+divIndex , "toJson("+divIndex+")", "download .json file"));
         tmpInput = document.createElement("input");
         tmpInput.type = "file";
-        tmpInput.id = "selectFiles" ;
+        tmpInput.id = "selectFiles"+divIndex ;
         div.appendChild(tmpInput);
         div.appendChild(createButton("button", "import"+divIndex , "fromJson("+divIndex+")", "upload .json file"));
         div.appendChild(createBr());

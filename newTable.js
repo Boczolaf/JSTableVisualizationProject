@@ -61,6 +61,17 @@ function checkIfTableBelongsInDiv(tableId,parentIndex){
     }
     return false;
 }
+
+function deleteTablesFromParentId(parentIndex){
+    for(let i =0;i<=index;i++){
+        if(allTables[i]) {
+            if(allTables[i][0]===parentIndex){
+                allTables.splice(i, 1);
+            }
+        }
+    }
+    return false;
+}
 function getParentIDFromTableId(tableId){
     for(let i =0;i<=index;i++){
         if(allTables[i]) {

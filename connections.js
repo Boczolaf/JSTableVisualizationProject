@@ -6,7 +6,7 @@ let canvasY ; // Y
 let canvasX ; // X
 
 function getCanvasIdForParentId(parentId){
-    for(let i=0;i<=index;i++){
+    for(let i=0;i<=index+1;i++){
         if(canvases[i][0]===parentId){
             return canvases[i][1];
         }

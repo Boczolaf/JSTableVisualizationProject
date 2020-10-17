@@ -32,7 +32,6 @@ function addToMemory(parentId,previous,next,type,info){
         }
     }
     memory.push(memoryCell);
-    console.log(memory);
 }
 class MemorySlot{
     constructor(parentId,previous,next,type,info) {

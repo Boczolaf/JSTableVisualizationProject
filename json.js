@@ -1,18 +1,17 @@
 
 function fromJson(parentId) {
     if(typeof currentlyChosenCell !=='string'){
-        setCurrentlyChosenCell(currentlyChosenCell);
+        setCurrentlyChosenCell(currentlyChosenCell,parentId);
     }
-    let files = document.getElementById('selectFiles').files;
+    let files = document.getElementById('selectFiles'+parentId).files;
     if (files.length <= 0) {
         return false;
     }
     let fr = new FileReader();
     fr.onload = function (e) {
         //delete all previous tables
-        deleteAllTables();
+        deleteAllTables(parentId);
         let result = JSON.parse(e.target.result);
-        index = result['index'];
         let dataToProcess = result['data'];
         for(let i =0; i< dataToProcess.length;i++){
             createDivTableFromArray(dataToProcess[i],parentId);
@@ -23,19 +22,20 @@ function fromJson(parentId) {
 }
 function createDivTableFromArray(data,parentId) {
     let title = data[0];
-    let id = data[1];
-    let type = data[2];
-    let tableInfo = data[3][0];
-    let indexOfFirstOut = data[4];
-    let content = data[5];
+    let type = data[1];
+    let tableInfo = data[2][0];
+    let indexOfFirstOut = data[3];
+    let content = data[4];
     let div = document.createElement("div");
+    let id = "divTable" + getNextIndex();
     div.id = id;
     let currIndex = parseInt(id.replace("divTable",""));
     div.style.position = "absolute";
-    div.appendChild(setupHeaderDiv(currIndex,title,type));
+    div.appendChild(setupHeaderDiv(currIndex,title,type,parentId));
     div.appendChild(createTableFromContent(id,content,indexOfFirstOut,type,parentId));
     reDrawArrows(index);
-    document.body.insertBefore(div, document.getElementById("canvas"));
+    let parentDiv = document.getElementById(getDivOuterId(parentId));
+    parentDiv.insertBefore(div, document.getElementById("canvas"+parentId));
     dragElement(document.getElementById(div.id));
     div.style.left = tableInfo.left.toString() + "px";
     div.style.top = tableInfo.top.toString() + "px";
@@ -125,19 +125,24 @@ function createTableFromContent(id, content,indexOfFirstOut,type,parentId){
 
 }
 
-function deleteAllTables() {
+function deleteAllTables(parentIndex) {
     let element;
+    let id;
     for(let i =0; i<=index;i++){
-        element = document.getElementById("divTable" + i);
-        if(element){
-            document.body.removeChild(element);
+        id = "divTable" + i;
+        if(checkIfTableBelongsInDiv(id,parentIndex)) {
+            element = document.getElementById(id);
+            if (element) {
+                document.body.removeChild(element);
+            }
         }
     }
+    deleteTablesFromParentId(parentIndex);
 
 }
 function toJson(parentId){
     if(typeof currentlyChosenCell !=='string'){
-        setCurrentlyChosenCell(currentlyChosenCell);
+        setCurrentlyChosenCell(currentlyChosenCell,parentId);
     }
     let json={};
     let mainDiv;
@@ -151,16 +156,15 @@ function toJson(parentId){
     let dataCells = [];
     let type;
     let tableInfo;
-    json['index'] = index;
     let indexOfFirstOut = "empty";
     let savedIndex = false;
     for(let i = 0; i<=index;i++){
         id = "divTable"+i;
+        if(checkIfTableBelongsInDiv(id,parentId)){
         mainDiv = document.getElementById(id);
         if(mainDiv !== null){
             header = mainDiv.childNodes[0];
             data.push(header.textContent);
-            data.push(id);
             table = mainDiv.childNodes[1];
             rows = table.rows;
             type = rows[0].cells[rows[0].cells.length-1].id.split("/")[1];
@@ -189,6 +193,7 @@ function toJson(parentId){
         if(data.length){
             wholeData.push(data);
             data = [];
+        }
         }
     }
 
