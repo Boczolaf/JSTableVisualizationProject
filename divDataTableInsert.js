@@ -1,6 +1,6 @@
-var divIndex = 0;
+let divIndex = 0;
 //variable that holds real id and divIndex for each data tables instance
-var divTranslate = [];
+let divTranslate = [];
 insertDataTables("MyNewDiv0");
 insertDataTables("MyNewDiv1");
 //creating whole top bar

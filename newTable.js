@@ -1,7 +1,7 @@
-var index = -1;
-var totalNumberOfButtons = 0;
-var deleteMode = [];
-var currentlyChosenCell = "empty";
+let index = -1;
+let totalNumberOfButtons = 0;
+let deleteMode = [];
+let currentlyChosenCell = "empty";
 let white = "#FFFFFF";
 let startValue = " ";
 let input =[];
@@ -460,7 +460,7 @@ function deleteColumn(id) {
     let divTable = document.getElementById(divTableId);
     let oldTable = divTable.cloneNode(true);
     let table = document.getElementById(tableInfo[0]);
-
+    let parentId = getParentIDFromTableId(divTableId);
     let rows = table.rows;
     let columnToDelete;
     //finding the right one
@@ -480,7 +480,6 @@ function deleteColumn(id) {
         }
     }
     let newTable = divTable.cloneNode(true);
-    let parentId = getParentIDFromTableId(divTableId);
     addToMemory(parentId,oldTable,newTable,"changedTable",[divTableId,divTable.getClientRects()]);
 }
 

@@ -1,10 +1,6 @@
 //var canvases = document.getElementsByTagName('canvas');
-let canvas ;
-var canvases =[];
-let ctx ;
-let canvasY ; // Y
-let canvasX ; // X
-
+let canvases =[];
+let canvas;
 function getCanvasIdForParentId(parentId){
     for(let i=0;i<=index+1;i++){
         if(canvases[i][0]===parentId){
@@ -18,7 +14,7 @@ function clearCanvas(){
     for(let i=0;i<index;i++){
         if(canvases[i]) {
             tmpCanvas = document.getElementById(canvases[i][1]);
-            ctx = tmpCanvas.getContext("2d");
+            let ctx = tmpCanvas.getContext("2d");
             ctx.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
             ctx.beginPath();
         }
@@ -43,9 +39,6 @@ function reDrawArrows(index){
         if(mainDiv !== null){
         parentId = getDivInnerId(mainDiv.parentElement.id);
         canvas = document.getElementById(getCanvasIdForParentId(parentId));
-        ctx = canvas.getContext("2d");
-        canvasY = canvas.getBoundingClientRect().top; // Y
-        canvasX = canvas.getBoundingClientRect().left; // X
         table = mainDiv.childNodes[1];
         rows = table.rows;
         let typeOfTable = rows[0].cells[rows[0].cells.length-1].id.split("/")[1];
@@ -91,6 +84,8 @@ function reDrawArrows(index){
 }
 //to change (implement path finding algorithm
 function connectElements(fromElement, toElement){
+    let canvasY = canvas.getBoundingClientRect().top; // Y
+    let canvasX = canvas.getBoundingClientRect().left; // X
     //here we are moving point to middle part of cell
     let startY = fromElement.getBoundingClientRect().top - canvasY + fromElement.getBoundingClientRect().height/2;// Y
     //here we are moving point to left part of cell
@@ -104,6 +99,7 @@ function connectElements(fromElement, toElement){
 }
 
 function drawArrow(fromX, fromY, toX, toY){
+    let ctx = canvas.getContext("2d");
     let headLen = 10;
     let angle = Math.atan2(toY-fromY,toX-fromX);
 
@@ -132,8 +128,7 @@ function drawArrow(fromX, fromY, toX, toY){
     ctx.fill();
 }
 function drawLine(fromX, fromY, toX, toY){
-    let headLen = 10;
-    let angle = Math.atan2(toY-fromY,toX-fromX);
+    let ctx = canvas.getContext("2d");
     //starting path of the arrow from the start square to the end square and drawing the stroke
     ctx.beginPath();
     ctx.moveTo(fromX, fromY);
