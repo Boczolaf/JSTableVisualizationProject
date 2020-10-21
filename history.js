@@ -69,7 +69,6 @@ class MemorySlot{
                     id = this.info[0];
                     let parentDiv;
                     if (typeof this.previousState === 'string') {
-                        console.log(this.previousState);
                         parentDiv = document.getElementById(getDivOuterId(this.parentId));
                         parentDiv.removeChild(document.getElementById(id));
                     }
@@ -77,8 +76,10 @@ class MemorySlot{
                         let copy = this.previousState.cloneNode(true);
                         canvas = document.getElementById(getCanvasIdForParentId(this.parentId));
                         parentDiv = document.getElementById(getDivOuterId(this.parentId));
+                        parentDiv.removeChild(document.getElementById(id));
                         parentDiv.insertBefore(copy, canvas);
                         this.fixCopyOfDivTable(copy, this.info[1])
+                        dragElement(copy);
 
                     }
                     reDrawArrows(index);
@@ -121,6 +122,7 @@ class MemorySlot{
                         canvas = document.getElementById(getCanvasIdForParentId(this.parentId));
                         parentDiv.insertBefore(copy, canvas);
                         this.fixCopyOfDivTable(copy, this.info[1]);
+                        dragElement(copy);
                     }
                     reDrawArrows(index);
                     break;
@@ -128,54 +130,50 @@ class MemorySlot{
         }
     }
     fixCopyOfDivTable(copy, clientRect) {
-    copy.boundingClientRect = clientRect;
-    dragElement(copy);
-    let header = copy.childNodes[0];
-    let tmp;
-    //clearing button
-    tmp = header.innerText;
-    header.innerText = tmp;
-    createDeleteButton(header,"header",this.parentId);
-    let table = copy.childNodes[1];
-    let rows = table.rows;
-    let cell;
-    for(let i = 0;i< rows.length;i++){
-        for(let j =0;j< rows[i].cells.length;j++){
-            cell = rows[i].cells[j];
-
-            if(i!==0){
-                cell.style.backgroundColor=white;
-                cell.setAttribute('onclick','onClick(this)');
-                if(j===rows[i].cells.length-1){
-                    cell.setAttribute('onclick','onClickConnection(this)');
-                }
-            }
-            if(cell.id){
-                //deleting buttons
-                tmp = cell.innerText;
-                cell.innerText = tmp;
-                if(cell.id.includes("column")){
-                    createDeleteButton(cell,"column",this.parentId);
-                    cell.setAttribute('onclick','onClickForFirstRow(this)');
-                    if(cell.id.includes("in")){
-                        cell.style.backgroundColor = blue;
+        copy.boundingClientRect = clientRect;
+        let header = copy.childNodes[0];
+        let tmp;
+        //clearing button
+        tmp = header.innerText;
+        header.innerText = tmp;
+        createDeleteButton(header,"header",this.parentId);
+        let table = copy.childNodes[1];
+        let rows = table.rows;
+        let cell;
+        for(let i = 0;i< rows.length;i++){
+            for(let j =0;j< rows[i].cells.length;j++){
+                cell = rows[i].cells[j];
+                cell.className = "normalCell";
+                if(i!==0){
+                    cell.setAttribute('onclick','onClick(this)');
+                    if(j===rows[i].cells.length-1){
+                        cell.setAttribute('onclick','onClickConnection(this)');
                     }
-                    else{
-                        cell.style.backgroundColor = red;
-                        cell.style.color = black;
-                    }
-
                 }
-                if(cell.id.includes("row")){
-                    createDeleteButton(cell,"row",this.parentId);
+                if(cell.id){
+                    //deleting buttons
+                    tmp = cell.innerText;
+                    cell.innerText = tmp;
+                    if(cell.id.includes("column")){
+                        createDeleteButton(cell,"column",this.parentId);
+                        cell.setAttribute('onclick','onClickForFirstRow(this)');
+                        if(cell.id.includes("in")){
+                            cell.className = "leftSideValues"
+                        }
+                        else{
+                            cell.className = "rightSideValues"
+                        }
+
+                    }
+                    if(cell.id.includes("row")){
+                        createDeleteButton(cell,"row",this.parentId);
+
+                    }
 
                 }
 
             }
-            cell.style.color = black;
         }
-    }
-
 }
 }
 

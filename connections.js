@@ -94,7 +94,7 @@ function connectElements(fromElement, toElement){
     //here we are moving point to middle part of cell
     let startY = fromElement.getBoundingClientRect().top - canvasY + fromElement.getBoundingClientRect().height/2;// Y
     //here we are moving point to left part of cell
-    let startX = window.scrollX + fromElement.getBoundingClientRect().left - canvasX + fromElement.getBoundingClientRect().width// X
+    let startX =  fromElement.getBoundingClientRect().left - canvasX + fromElement.getBoundingClientRect().width// X
     let endY =toElement.getBoundingClientRect().top - canvasY// Y
     let endX = toElement.getBoundingClientRect().left - canvasX// X
     //toDo path finding

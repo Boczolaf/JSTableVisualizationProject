@@ -2,14 +2,7 @@ var index = -1;
 var totalNumberOfButtons = 0;
 var deleteMode = [];
 var currentlyChosenCell = "empty";
-let red = "#A52A2A";
-let lightRed = "#FF0000";
 let white = "#FFFFFF";
-let lightGreen = "#228B22";
-let lightPurple = "#cc00ff"
-let black = "#000000";
-let blue = "#6495ED";
-let lightBlue = "#03a9fc";
 let startValue = " ";
 let input =[];
 let allTables = []; //structure in which there is separate table for each parent index with table ids inside
@@ -126,19 +119,14 @@ function setupHeaderDiv(index, value, type, parentIndex) {
     if (!name) {
         name = "Click here to move";
     }
-    element.style.cursor = "move";
-    element.style.padding = "10px";
-    element.style.zIndex = "10";
 
     if(checkedType){
-        element.style.backgroundColor = lightPurple;
+        element.className = "divHeaderMajor";
     }
     else{
-        element.style.backgroundColor = lightGreen;
+        element.className = "divHeaderMinor";
     }
-    element.style.color = white;
-    element.style.display = "inline-block";
-    element.style.boxSizing = "border-box";
+
     element.id = "divTable" + index + "Header";
     if(value.localeCompare("")===0){
         element.textContent = name + "(id:" + "divTable" + index + ")";
@@ -153,8 +141,7 @@ function createNewTable(index,parentIndex) {
     let table = document.createElement("table");
     let checkedType = document.getElementById("tableType"+parentIndex).checked;
     table.id = "table" + index;
-    table.style.border = "thin solid #000000"
-    table.style.borderCollapse = "collapse";
+    table.className = "table";
     //arguments
     //get number of rows
     let rows = document.getElementById("rowCount"+parentIndex).value;
@@ -187,11 +174,9 @@ function createNewTable(index,parentIndex) {
     for (i = 1; i < leftLength+1; i++) {
         if (leftSideValues[i-1]) {
             cell = row.insertCell(i);
-            cell.style.padding = "20px";
-            cell.innerText = leftSideValues[i-1];
-            cell.style.border = "thin solid #000000";
-            cell.style.backgroundColor = blue;
             cell.id = table.id + "/" + "column" + i + "/" + "in";
+            cell.innerText = leftSideValues[i-1];
+            cell.className = "leftSideValues";
             cell.setAttribute('onclick', 'onClickForFirstRow(this,'+parentIndex+')');
             createDeleteButton(cell, "column",parentIndex);
 
@@ -200,12 +185,9 @@ function createNewTable(index,parentIndex) {
     for (i; i < totalTopLength+1; i++) {
         if (rightSideValues[i - leftSideValues.length-1]) {
             cell = row.insertCell(i)
-            cell.style.backgroundColor = white;
-            cell.style.padding = "20px";
             cell.innerText = rightSideValues[i - leftSideValues.length-1];
-            cell.style.border = "thin solid #000000";
-            cell.style.backgroundColor = red;
             cell.id = table.id + "/" + "column" + i + "/" + "out";
+            cell.className = "rightSideValues";
             cell.setAttribute('onclick', 'onClickForFirstRow(this,'+parentIndex+')');
             createDeleteButton(cell, "column",parentIndex);
         }
@@ -213,10 +195,8 @@ function createNewTable(index,parentIndex) {
     }
     totalTopLength =row.cells.length;
     cell = row.insertCell(totalTopLength);
-    cell.style.backgroundColor = white;
-    cell.style.padding = "20px";
     cell.innerText = "Connections to minor(;=separator)";
-    cell.style.border = "thin solid #000000";
+    cell.className = "connections";
     cell.id = table.id + "/minor";
     if(checkedType){
         cell.id = "";
@@ -239,10 +219,8 @@ function createNewTable(index,parentIndex) {
         let tmp = rightLen+leftLen +2 ;
         cell = row.insertCell(tmp);
         cell.id = table.id + "/major";
-        cell.style.backgroundColor = white;
-        cell.style.padding = "20px";
         cell.innerText = "Connections to major(;=separator)";
-        cell.style.border = "thin solid #000000";
+        cell.className = "connections";
     }
     //entering rest of rows
     let j;
@@ -258,10 +236,8 @@ function createNewTable(index,parentIndex) {
             cell = row.insertCell(j)
             cell.id = table.id + "/cell" + h;
             h++;
-            cell.style.backgroundColor = white;
             cell.innerText = startValue;
-            cell.style.padding = "20px";
-            cell.style.border = "thin solid #000000";
+            cell.className = "normalCell"
             //creating invisible button that shows in deletion mode
             if (j === 0) {
                 cell.id = table.id + "/" + "row" + i;
@@ -297,8 +273,6 @@ function onClick(element,parentIndex) {
                 //action is array containing: name , arguments used, other necessary info
                 element.innerText = newValue;
                 addToMemory(parentIndex,oldValue,newValue,"changedNormalField",element.id);
-                element.style.color = white;
-                element.style.color = black;
                 if (element.id.includes("row")) {
                     createDeleteButton(element, "row",parentIndex)
                 }
@@ -367,16 +341,38 @@ function setCurrentlyChosenCell(element,parentIndex){
 if(element !== "empty") {
     if (currentlyChosenCell !== element) {
         if (typeof currentlyChosenCell !== "string") {
-            currentlyChosenCell.style.borderColor = black;
-            currentlyChosenCell.style.border = "solid thin";
+            if(currentlyChosenCell.id.includes("/in")){
+                currentlyChosenCell.className = "leftSideValues";
+            }
+            else if(currentlyChosenCell.id.includes("/out")){
+                currentlyChosenCell.className = "rightSideValues";
+            }
+            else{
+                currentlyChosenCell.className = "normalCell";
+            }
+
         }
         currentlyChosenCell = element;
-        currentlyChosenCell.style.border = "solid thick";
-        currentlyChosenCell.style.borderColor = lightBlue;
+        if(currentlyChosenCell.id.includes("/in")){
+            currentlyChosenCell.className = "leftSideChosenCell";
+        }
+        else if(currentlyChosenCell.id.includes("/out")){
+            currentlyChosenCell.className = "rightSideChosenCell";
+        }
+        else{
+            currentlyChosenCell.className = "normalChosenCell";
+        }
     } else {
         currentlyChosenCell = "empty";
-        element.style.borderColor = black;
-        element.style.border = "solid thin";
+        if(element.id.includes("/in")){
+            element.className = "leftSideValues";
+        }
+        else if(element.id.includes("/out")){
+            element.className = "rightSideValues";
+        }
+        else{
+            element.className = "normalCell";
+        }
         //empty the function on input
         refreshInput(parentIndex);
     }
@@ -395,7 +391,7 @@ function switchDeleteMode(index) {
     deleteMode[index] = !deleteMode[index];
     let switchButton = document.getElementById("deleteModeButton"+index);
     if (deleteMode[index]) {
-        switchButton.style.backgroundColor = lightRed;
+        switchButton.className = "deleteButton";
     } else {
         switchButton.style.backgroundColor = white;
     }
@@ -417,15 +413,13 @@ function switchDeleteMode(index) {
 function createDeleteButton(cell, type,parentId) {
     let btn = document.createElement('input');
     btn.type = "button";
-    btn.className = "btn";
-    btn.style.backgroundColor = lightRed;
+    btn.className = "deleteButton";
     if (!deleteMode[parentId]) {
         btn.disabled = true;
         btn.style.visibility = "hidden";
     }
     btn.id = "deleteButton" + totalNumberOfButtons.toString();
     totalNumberOfButtons++;
-    btn.style.color = black;
     btn.value = "X";
     let id = cell.id
     if (type.includes("column")) {
@@ -453,7 +447,7 @@ function createDeleteButton(cell, type,parentId) {
     if (type.includes("header")) {
         btn.value = "Delete table";
         btn.onclick = function () {
-            deleteTable(id);
+            deleteTable(id,parentId);
         };
     }
     cell.appendChild(btn);
@@ -501,8 +495,7 @@ function mouseHoverColumn(id) {
             if (rows[0].cells[j].id.localeCompare(id) === 0) {
                 columnToDelete = j;
                 for (let k = 0; k < rows.length; k++) {
-                    rows[k].cells[columnToDelete].style.backgroundColor = black;
-                    rows[k].cells[columnToDelete].style.color = white;
+                    rows[k].cells[columnToDelete].className = "hoveredRowOrColumn";
                 }
                 break;
             }
@@ -524,16 +517,14 @@ function mouseHoverColumnOut(id) {
                 for (let k = 0; k < rows.length; k++) {
                     if (k === 0) {
                         if (tableInfo[2].localeCompare("in") === 0) {
-                            rows[k].cells[columnToDelete].style.backgroundColor = blue;
+                            rows[k].cells[columnToDelete].className = "leftSideValues";
                         }
                         if (tableInfo[2].localeCompare("out") === 0) {
-                            rows[k].cells[columnToDelete].style.backgroundColor = red;
+                            rows[k].cells[columnToDelete].className = "rightSideValues";
                         }
 
-                        rows[k].cells[columnToDelete].style.color = black;
                     } else {
-                        rows[k].cells[columnToDelete].style.backgroundColor = white;
-                        rows[k].cells[columnToDelete].style.color = black;
+                        rows[k].cells[columnToDelete].className = "normalCell";
                     }
                 }
                 break;
@@ -575,12 +566,10 @@ function mouseHoverRow(id,type) {
         if (rows[j].cells[0].id.localeCompare(id) === 0) {
             for (let k = 0; k < rows[j].cells.length; k++) {
                 if(type.localeCompare("over")===0) {
-                    rows[j].cells[k].style.backgroundColor = black;
-                    rows[j].cells[k].style.color = white;
+                    rows[j].cells[k].className = "hoveredRowOrColumn";
                 }
                 else{
-                    rows[j].cells[k].style.backgroundColor = white;
-                    rows[j].cells[k].style.color = black;
+                    rows[j].cells[k].className = "normalCell";
                 }
 
             }
@@ -589,16 +578,15 @@ function mouseHoverRow(id,type) {
     }
 }
 
-function deleteTable(id) {
+function deleteTable(id,parentId) {
     //to unselect cell (to not cause problems)
-    setCurrentlyChosenCell(currentlyChosenCell);
+    setCurrentlyChosenCell(currentlyChosenCell,parentId);
     let tableId = id.split("Header")[0];
     let divTable = document.getElementById(tableId);
     let oldTable = divTable.cloneNode(true);
     let element = document.getElementById(tableId);
     element.parentNode.removeChild(element);
     let newTable = "Empty";
-    let parentId = getParentIDFromTableId(tableId);
     addToMemory(parentId,oldTable,newTable,"changedTable",[divTable.id,divTable.getClientRects()]);
     reDrawArrows(index);
 }

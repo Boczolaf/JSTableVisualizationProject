@@ -133,18 +133,14 @@ function changeDiv(parentIndex) {
 }
 
 function setInColumnCellForAdding(cell,value ,table,parentIndex) {
-    cell.style.padding = "20px";
+    cell.className = "leftSideValues";
     cell.innerText = value;
-    cell.style.border = "thin solid #000000";
-    cell.style.backgroundColor = blue;
     cell.id = table.id + "/" + "column" + (table.rows[0].cells.length + 1) + "/" + "in";
     cell.setAttribute('onclick', 'onClickForFirstRow(this)');
     createDeleteButton(cell, "column",parentIndex);
 }
 function setOutColumnCellForAdding(cell, value, table,parentIndex) {
-    cell.style.padding = "20px";
-    cell.style.border = "thin solid #000000";
-    cell.style.backgroundColor = red;
+    cell.className = "rightSideValues";
     cell.innerText = value;
     cell.id = table.id + "/" + "column" + (table.rows[0].cells.length + 1) + "/" + "out";
     cell.setAttribute('onclick', 'onClickForFirstRow(this)');
@@ -152,19 +148,15 @@ function setOutColumnCellForAdding(cell, value, table,parentIndex) {
 }
 
 function setNormalCellForAdding(cell) {
-    cell.style.backgroundColor = white;
+    cell.className = "normalCell";
     cell.innerText = startValue;
-    cell.style.padding = "20px";
-    cell.style.border = "thin solid #000000";
     cell.setAttribute('onclick', 'onClick(this)');
 }
 function setTopRowIdCell(row){
     let cell;
     cell = row.insertCell(0);
-    cell.style.padding = "20px";
+    cell.className = "normalCell";
     cell.innerText = "Row id's";
-    cell.style.border = "thin solid #000000";
-    cell.style.backgroundColor = white;
 }
 function cleanUpWrongButtons(table){
     let rows = table.rows;

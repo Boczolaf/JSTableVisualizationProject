@@ -1,0 +1,70 @@
+.divHeaderMinor {
+    background-color: #228B22;
+    cursor : move;
+    padding : 10px;
+    z-index : 10;
+    color : white;
+    display : inline-block;
+    box-sizing : border-box;
+}
+.divHeaderMajor {
+    background-color: #cc00ff;
+    cursor : move;
+    padding : 10px;
+    z-index : 10;
+    color : white;
+    display : inline-block;
+    box-sizing : border-box;
+}
+.table {
+    border : thin solid black;
+    border-collapse : collapse;
+}
+.leftSideValues {
+    background-color : #6495ED;
+    padding : 20px;
+    border : thin solid black;
+}
+.rightSideValues {
+    background-color : #A52A2A;
+    padding : 20px;
+    border : thin solid black;
+}
+.connections {
+    background-color : white;
+    padding : 20px;
+    border : thin solid black;
+}
+.normalCell {
+    background-color : white;
+    padding : 20px;
+    border : thin solid black;
+
+}
+.normalChosenCell{
+    border : thick solid #03a9fc;
+    padding : 20px 16px 20px 16px;
+    background-color : white;
+}
+.rightSideChosenCell {
+    background-color : #A52A2A;
+    padding : 20px 16px 20px 16px;
+    border : thick solid #03a9fc;
+}
+.leftSideChosenCell {
+    background-color : #6495ED;
+    padding : 20px 16px 20px 16px;
+    border : thick solid #03a9fc;
+}
+.deleteModeButton {
+    background-color:  #FF0000;
+}
+.deleteButton {
+    background-color:  #FF0000;
+    color : black;
+}
+.hoveredRowOrColumn {
+    background-color:  black;
+    padding : 20px;
+    color : white;
+}

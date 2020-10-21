@@ -45,8 +45,7 @@ function createTableFromContent(id, content,indexOfFirstOut,type,parentId){
     let table = document.createElement("table");
     let typeOfTable = type.localeCompare("major")===0;
     table.id = id.replace("divTable","table");
-    table.style.border = "thin solid #000000"
-    table.style.borderCollapse = "collapse";
+    table.className = "table";
     //arguments
     //get number of rows
     let row;
@@ -60,16 +59,14 @@ function createTableFromContent(id, content,indexOfFirstOut,type,parentId){
 //setting up top of table
     for (let i = 1; i < topLength; i++) {
         cell = row.insertCell(i)
-        cell.style.padding = "20px";
         cell.innerText = content[0][i];
-        cell.style.border = "thin solid #000000";
         if(i<indexOfFirstOut){
             cell.id = table.id + "/column" +i +"/in"
-            cell.style.backgroundColor = blue;
+            cell.className = "leftSideValues";
         }
         else{
             cell.id = table.id + "/column" +i +"/out"
-            cell.style.backgroundColor = red;
+            cell.className = "rightSideValues";
         }
         cell.setAttribute('onclick', 'onClickForFirstRow(this)');
         createDeleteButton(cell, "column",parentId);
@@ -77,19 +74,15 @@ function createTableFromContent(id, content,indexOfFirstOut,type,parentId){
     }
     //connections
     cell = row.insertCell(topLength);
-    cell.style.padding = "20px";
-    cell.style.border = "thin solid #000000";
-    cell.style.backgroundColor = white;
+    cell.className = "connections";
     cell.innerText = "Connections to minor(;=separator)";
     cell.id = table.id + "/minor";
     if(typeOfTable){
+        cell.className = "connections";
         cell.id = "";
         cell = row.insertCell(content[0].length-1);
         cell.id = table.id + "/major";
-        cell.style.backgroundColor = white;
-        cell.style.padding = "20px";
         cell.innerText = "Connections to major(;=separator)";
-        cell.style.border = "thin solid #000000";
     }
 
     //rest of data
@@ -101,7 +94,7 @@ function createTableFromContent(id, content,indexOfFirstOut,type,parentId){
         row = table.insertRow();
         for (let j = 0; j < content[currIndex].length; j++) {
             cell = row.insertCell(j);
-            cell.style.backgroundColor = white;
+            cell.className = "normalCell";
             cell.innerText = content[currIndex][j];
             if (j === 0) {
                 cell.id = table.id + "/row" + i;
@@ -116,8 +109,7 @@ function createTableFromContent(id, content,indexOfFirstOut,type,parentId){
                 cell.id = table.id + "/cell" + h;
                 h++;
             }
-            cell.style.padding = "20px";
-            cell.style.border = "thin solid #000000";
+
         }
 
     }
