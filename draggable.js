@@ -28,9 +28,21 @@ function dragElement(element) {
         pos2 = pos4 - e.clientY;
         pos3 = e.clientX;
         pos4 = e.clientY;
+        //check if the position is in canvas
+        let parentId = getParentIDFromTableId(element.id);
+        let canvasId = getCanvasIdForParentId(parentId);
+        canvas = document.getElementById(canvasId);
+        let canvasY = canvas.getBoundingClientRect().top + window.scrollY; // Y
         // set the element's new position:
-        element.style.top = (element.offsetTop - pos2) + "px";
-        element.style.left = (element.offsetLeft - pos1) + "px";
+        let newTop = element.offsetTop - pos2;
+        let newLeft = element.offsetLeft - pos1;
+        console.log(newTop + ", canvas: "+canvasY);
+        //console.log(canvasY);
+        //console.log(canvasY + canvas.getBoundingClientRect().height);
+        if((newTop>=canvasY && (canvasY + canvas.getBoundingClientRect().height)>newTop)){
+            element.style.top = newTop + "px";
+            element.style.left = newLeft + "px";
+        }
     }
 
     function closeDragElement() {

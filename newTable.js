@@ -382,8 +382,10 @@ if(element !== "empty") {
 function refreshInput(parentId){
     let tmpInput = getInput(parentId);
     tmpInput = document.getElementById(tmpInput);
-    let new_element = tmpInput.cloneNode(true);
-    tmpInput.parentNode.replaceChild(new_element, tmpInput);
+    if(tmpInput) {
+        let new_element = tmpInput.cloneNode(true);
+        tmpInput.parentNode.replaceChild(new_element, tmpInput);
+    }
 }
 
 function switchDeleteMode(index) {
