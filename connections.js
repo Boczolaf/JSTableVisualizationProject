@@ -11,8 +11,9 @@ function getCanvasIdForParentId(parentId){
 }
 function clearCanvas(){
     let tmpCanvas;
-    for(let i=0;i<index;i++){
+    for(let i=0;i<=index;i++){
         if(canvases[i]) {
+            console.log("Cleaned canvas nr: "+i);
             tmpCanvas = document.getElementById(canvases[i][1]);
             let ctx = tmpCanvas.getContext("2d");
             ctx.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);

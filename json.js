@@ -35,10 +35,11 @@ function createDivTableFromArray(data,parentId) {
     div.appendChild(createTableFromContent(id,content,indexOfFirstOut,type,parentId));
     reDrawArrows(index);
     let parentDiv = document.getElementById(getDivOuterId(parentId));
+    addTableToAllTables(getDivInnerId(parentDiv.id),div.id);
     parentDiv.insertBefore(div, document.getElementById("canvas"+parentId));
     dragElement(document.getElementById(div.id));
     div.style.left = tableInfo.left.toString() + "px";
-    div.style.top = tableInfo.top.toString() + "px";
+    reDrawArrows(index);
 
 }
 function createTableFromContent(id, content,indexOfFirstOut,type,parentId){
