@@ -9,11 +9,16 @@ function getCanvasIdForParentId(parentId){
     }
     return "empty";
 }
+function getTypeOfDivTableFromCell(cell){
+    return cell.parentElement.parentElement.rows[0].cells[cell.parentElement.parentElement.rows[0].cells.length-1].id.split("/")[1];
+}
+function getTypeOfDivTableFromTable(table){
+    return table.childNodes[1].rows[0].cells[table.childNodes[1].rows[0].cells.length-1].id.split("/")[1];
+}
 function clearCanvas(){
     let tmpCanvas;
     for(let i=0;i<=index;i++){
         if(canvases[i]) {
-            console.log("Cleaned canvas nr: "+i);
             tmpCanvas = document.getElementById(canvases[i][1]);
             let ctx = tmpCanvas.getContext("2d");
             ctx.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
@@ -66,7 +71,17 @@ function reDrawArrows(index){
                                         cell = rows[j].cells[rows[j].cells.length - 1];
                                     }
                                     if(checkIfTablesAreInSameDiv(elementToConnectTo.id,getParentIdFromCell(cell))) {
-                                        connectElements(cell, elementToConnectTo);
+                                        let typeFrom = getTypeOfDivTableFromCell(cell);
+                                        let typeTo = getTypeOfDivTableFromTable(elementToConnectTo);
+                                        if(!(typeFrom.localeCompare("minor")===0 && typeTo.localeCompare("major")===0)){
+                                            if(typeFrom.localeCompare("major")===0
+                                                && checkIfIdIsInRightSlot(typeTo,cell,b)){
+                                                connectElements(cell, elementToConnectTo);
+                                            }
+                                            if(typeFrom.localeCompare("minor")===0 && typeTo.localeCompare("minor")===0){
+                                                connectElements(cell, elementToConnectTo);
+                                            }
+                                        }
                                     }
                                 }
                             } else {
@@ -82,6 +97,18 @@ function reDrawArrows(index){
 
         }
     }
+}
+function checkIfIdIsInRightSlot(typeOfConnection,cell,typeOfTable){
+    let cellIndex = cell.cellIndex;
+    if(typeOfTable ===1){
+        cellIndex = cellIndex-1;
+    }
+    let text = cell.parentElement.parentElement.rows[0].cells[cellIndex].textContent;
+    console.log(text);
+    if(text.includes("major")&&typeOfConnection.includes("major")){
+        return true;
+    }
+    else return text.includes("minor") && typeOfConnection.includes("minor");
 }
 //to change (implement path finding algorithm
 function connectElements(fromElement, toElement){

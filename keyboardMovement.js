@@ -5,7 +5,7 @@ function leftArrowPressed() {
         if(index !== 0){
             let cell = row.cells[index];
             let divId = getParentIdFromCell(cell);
-            let parentId = getDivInnerId(divId);
+            let parentId = getParentIDFromTableId(divId);
             onClickWithParentId(cell,parentId);
         }
     }
@@ -19,7 +19,7 @@ function rightArrowPressed() {
         if(index !== row.cells.length){
             let cell = row.cells[index];
             let divId = getParentIdFromCell(cell);
-            let parentId = getDivInnerId(divId);
+            let parentId = getParentIDFromTableId(divId);
             onClickWithParentId(cell,parentId);
         }
     }
@@ -42,8 +42,8 @@ function upArrowPressed() {
         let index = currentlyChosenCell.cellIndex;
         let rowIndex = currentlyChosenCell.parentElement.rowIndex-1;
         let table = currentlyChosenCell.parentElement.parentElement;
-        let divId = getParentIdFromCell(currentlyChosenCell)
-        let parentId = getDivInnerId(divId);
+        let parentId = getParentIdFromCell(currentlyChosenCell);
+        parentId = getParentIDFromTableId(parentId);
         if(rowIndex !== 0){
             let cell = table.rows[rowIndex].cells[index];
             changeSelectedCellForArrowMovement(cell,parentId);
@@ -57,8 +57,8 @@ function downArrowPressed() {
         let index = currentlyChosenCell.cellIndex;
         let rowIndex = currentlyChosenCell.parentElement.rowIndex+1;
         let table = currentlyChosenCell.parentElement.parentElement;
-        let divId = getParentIdFromCell(currentlyChosenCell)
-        let parentId = getDivInnerId(divId);
+        let parentId = getParentIdFromCell(currentlyChosenCell);
+        parentId = getParentIDFromTableId(parentId);
         if(rowIndex !== table.rows.length){
             let cell = table.rows[rowIndex].cells[index];
             changeSelectedCellForArrowMovement(cell,parentId);
@@ -66,10 +66,8 @@ function downArrowPressed() {
     }
 }
 
-function changeSelectedCellForArrowMovement(cell){
+function changeSelectedCellForArrowMovement(cell,parentId){
     let type = cell.id.split("/")[1];
-    let divId =getParentIdFromCell(cell);
-    let parentId = getDivInnerId(divId);
     if(type.includes("cell")){
         onClick(cell,parentId);
     }

@@ -202,8 +202,6 @@ function createNewTable(index,parentIndex) {
         cell.id = "";
         let leftLen ;
         let rightLen ;
-        console.log(leftSideValues);
-        console.log(rightSideValues);
         if(leftSideValues[0].localeCompare("")===0){
             leftLen = 0;
         }
