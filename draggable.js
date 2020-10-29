@@ -37,8 +37,13 @@ function dragElement(element) {
         // set the element's new position:
         let newTop = element.offsetTop - pos2;
         let newLeft = element.offsetLeft - pos1;
+        let elementHeight = element.offsetHeight;
+        let elementWidth = element.offsetWidth;
         clearCanvas();
-        if((newTop>=canvasY && (canvasY + canvas.getBoundingClientRect().height)>newTop) && (newLeft >= canvasX) && (newLeft<= (canvasX + canvas.getBoundingClientRect().width))){
+        if((newTop>=canvasY
+            && (canvasY + canvas.getBoundingClientRect().height)>newTop+elementHeight)
+            && (newLeft >= canvasX)
+            && (newLeft + elementWidth <= (canvasX + canvas.getBoundingClientRect().width))){
             element.style.top = newTop + "px";
             element.style.left = newLeft + "px";
         }
