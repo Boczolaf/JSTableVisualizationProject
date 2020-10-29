@@ -44,10 +44,8 @@ function upArrowPressed() {
         let table = currentlyChosenCell.parentElement.parentElement;
         let parentId = getParentIdFromCell(currentlyChosenCell);
         parentId = getParentIDFromTableId(parentId);
-        if(rowIndex !== 0){
-            let cell = table.rows[rowIndex].cells[index];
-            changeSelectedCellForArrowMovement(cell,parentId);
-    }
+        let cell = table.rows[rowIndex].cells[index];
+        changeSelectedCellForArrowMovement(cell,parentId);
 }
 }
 
