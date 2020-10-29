@@ -395,17 +395,30 @@ function switchDeleteMode(index) {
     } else {
         switchButton.style.backgroundColor = white;
     }
+    let id;
+    let tmp;
+    let tmp2;
     for (let i = 0; i < totalNumberOfButtons; i++) {
         btn = document.getElementById("deleteButton" + i);
         if (btn) {
-
-            if (!deleteMode[index]) {
-                btn.disabled = true;
-                btn.style.visibility = "hidden";
-            } else {
-                btn.disabled = false;
-                btn.style.visibility = "visible";
+            id = btn.parentElement.id;
+            tmp = id.split("/");
+            tmp2 = tmp;
+            if(tmp.length>=2){
+                tmp2 = tmp[0].replace("table","divTable");
             }
+            else{
+                tmp2 = id.split("Header")[0];
+            }
+           if(getParentIDFromTableId(tmp2)===index) {
+               if (!deleteMode[index]) {
+                   btn.disabled = true;
+                   btn.style.visibility = "hidden";
+               } else {
+                   btn.disabled = false;
+                   btn.style.visibility = "visible";
+               }
+           }
         }
     }
 
