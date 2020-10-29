@@ -33,11 +33,12 @@ function dragElement(element) {
         let canvasId = getCanvasIdForParentId(parentId);
         canvas = document.getElementById(canvasId);
         let canvasY = canvas.getBoundingClientRect().top + window.scrollY; // Y
+        let canvasX = canvas.getBoundingClientRect().left + window.scrollX; // X
         // set the element's new position:
         let newTop = element.offsetTop - pos2;
         let newLeft = element.offsetLeft - pos1;
         clearCanvas();
-        if((newTop>=canvasY && (canvasY + canvas.getBoundingClientRect().height)>newTop)){
+        if((newTop>=canvasY && (canvasY + canvas.getBoundingClientRect().height)>newTop) && (newLeft >= canvasX) && (newLeft<= (canvasX + canvas.getBoundingClientRect().width))){
             element.style.top = newTop + "px";
             element.style.left = newLeft + "px";
         }
