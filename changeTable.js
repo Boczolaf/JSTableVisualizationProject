@@ -1,6 +1,7 @@
 function editTableById(parentIndex) {
     let id = document.getElementById("tabId"+parentIndex).value;
     id = findIdFromName(id);
+    console.log(id);
     if (id) {
         let table = document.getElementById(id);
         if(checkIfTableBelongsInDiv(table.id,parentIndex)){
