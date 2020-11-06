@@ -79,9 +79,9 @@ function createTableFromContent(id, content,indexOfFirstOut,type,parentId){
     cell.innerText = "Connections to minor(;=separator)";
     cell.id = table.id + "/minor";
     if(typeOfTable){
+        cell = row.insertCell(content[0].length-1);
         cell.className = "connections";
         cell.id = "";
-        cell = row.insertCell(content[0].length-1);
         cell.id = table.id + "/major";
         cell.innerText = "Connections to major(;=separator)";
     }
