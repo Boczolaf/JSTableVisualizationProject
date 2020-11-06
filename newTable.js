@@ -129,7 +129,7 @@ function setupHeaderDiv(index, value, type, parentIndex) {
 
     element.id = "divTable" + index + "Header";
     if(value.localeCompare("")===0){
-        element.textContent = name + "(id:" + "divTable" + index + ")";
+        element.textContent = name;
     }
     else {
         element.textContent = value;
@@ -270,6 +270,9 @@ function onClick(element,parentIndex) {
             if (newValue && newValue!==oldValue) {
                 //action is array containing: name , arguments used, other necessary info
                 element.innerText = newValue;
+                let trueValue = "";
+                trueValue += executeInCell(newValue,element);
+                console.log(trueValue);
                 addToMemory(parentIndex,oldValue,newValue,"changedNormalField",element.id);
                 if (element.id.includes("row")) {
                     createDeleteButton(element, "row",parentIndex)

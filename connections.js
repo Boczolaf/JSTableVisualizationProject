@@ -27,6 +27,17 @@ function clearCanvas(){
     }
 }
 
+function findIdFromName(name) {
+    let divTable;
+    for(let i = 0;i<=index;i++){
+        divTable = document.getElementById("divTable"+index);
+        if(divTable.childNodes[0].textContent ===name){
+            return divTable.id;
+        }
+    }
+    return "";
+}
+
 function reDrawArrows(index){
     //clearing canvas
     clearCanvas()
@@ -61,7 +72,7 @@ function reDrawArrows(index){
                 connections = cell.innerText.split(";");
                 if (connections[0] !== "" && connections[0] !== " ") {
                     for (let k = 0; k < connections.length; k++) {
-                        elementToConnectTo = document.getElementById(connections[k])
+                        elementToConnectTo = document.getElementById(findIdFromName(connections[k]));
                         if (elementToConnectTo !== null) {
                             //check if you are not connecting to the table cell is in
                             if (!(getParentIdFromCell(cell).localeCompare(connections[k]) === 0)) {
@@ -104,7 +115,6 @@ function checkIfIdIsInRightSlot(typeOfConnection,cell,typeOfTable){
         cellIndex = cellIndex-1;
     }
     let text = cell.parentElement.parentElement.rows[0].cells[cellIndex].textContent;
-    console.log(text);
     if(text.includes("major")&&typeOfConnection.includes("major")){
         return true;
     }

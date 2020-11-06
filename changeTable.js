@@ -1,5 +1,6 @@
 function editTableById(parentIndex) {
     let id = document.getElementById("tabId"+parentIndex).value;
+    id = findIdFromName(id);
     if (id) {
         let table = document.getElementById(id);
         if(checkIfTableBelongsInDiv(table.id,parentIndex)){
@@ -10,7 +11,7 @@ function editTableById(parentIndex) {
             document.getElementById("addButton"+parentIndex).onclick = function () {
                 changeDiv(parentIndex)
             };
-            document.getElementById("tabName"+parentIndex).value = table.childNodes[0].innerText.split("(id:")[0];
+            document.getElementById("tabName"+parentIndex).value = table.childNodes[0].innerText;
         }
     }
     }
@@ -24,7 +25,7 @@ function changeDiv(parentIndex) {
     document.getElementById("addButton"+parentIndex).onclick = function () {
     setupMainDiv(parentIndex)
     };
-    let id = document.getElementById("tabId"+parentIndex).value;
+    let id = findIdFromName(document.getElementById("tabId"+parentIndex).value);
     let oldTable = document.getElementById(id).cloneNode(true);
     let mainDiv = document.getElementById(id);
     let headerDiv = mainDiv.childNodes[0];
@@ -32,7 +33,7 @@ function changeDiv(parentIndex) {
     let rows = table.rows;
     let typeOfTable = rows[0].cells[rows[0].cells.length-1].id.split("/")[1];
     typeOfTable = typeOfTable.localeCompare("minor") !== 0;
-    headerDiv.innerText = document.getElementById("tabName"+parentIndex).value + "(id:" + id + ")";
+    headerDiv.innerText = document.getElementById("tabName"+parentIndex).value;
     createDeleteButton(headerDiv, "header");
     //adding columns
     let colsToAddIn = document.getElementById("colNames"+parentIndex).value.split(";");
