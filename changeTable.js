@@ -48,7 +48,7 @@ function changeDiv(parentIndex) {
             } else {
                 typeOfNext = rows[0].cells[i].id.split("/")[2];
             }
-            if (rows[0].cells.length === 2 || (!(colsToAddIn[0].localeCompare("") === 0) && typeOfNext.localeCompare("out") === 0)) {
+            if ((!(colsToAddIn[0].localeCompare("") === 0) && typeOfNext.localeCompare("out") === 0)) {
                 for (let k = 0; k < colsToAddIn.length; k++) {
                     cell = rows[0].insertCell(k+1);
                     setInColumnCellForAdding(cell, colsToAddIn[k], table,parentIndex);
@@ -79,27 +79,27 @@ function changeDiv(parentIndex) {
         //now adding out
         let indexToInsert;
         if(!(colsToAddOut[0].localeCompare("")===0)) {
-        for (let i = 0; i < rows.length; i++) {
-            for (let m = 0; m < colsToAddOut.length; m++) {
-                indexToInsert = rows[i].cells.length - 1;
-                if(typeOfTable){
-                    indexToInsert = rows[i].cells.length - 2;
-                }
-                cell = rows[i].insertCell(indexToInsert);
-                if (i === 0) {
-                    setOutColumnCellForAdding(cell, colsToAddOut[m], table,parentIndex);
-                } else {
-                    setNormalCellForAdding(cell);
-                    if (rows[0].cells.length - 1 === 0) {
-                        cell.id = table.id + "/" + "row" + i;
+            for (let i = 0; i < rows.length; i++) {
+                for (let m = 0; m < colsToAddOut.length; m++) {
+                    indexToInsert = rows[i].cells.length - 1;
+                    if (typeOfTable) {
+                        indexToInsert = rows[i].cells.length - 2;
+                    }
+                    cell = rows[i].insertCell(indexToInsert);
+                    if (i === 0) {
+                        setOutColumnCellForAdding(cell, colsToAddOut[m], table, parentIndex);
+                    } else {
+                        setNormalCellForAdding(cell);
+                        if (rows[0].cells.length - 1 === 0) {
+                            cell.id = table.id + "/" + "row" + i;
 
-                        createDeleteButton(cell, "row",parentIndex);
+                            createDeleteButton(cell, "row", parentIndex);
+                        }
                     }
                 }
             }
         }
         }
-    }
     //adding rows
     let numberOfRows = document.getElementById("rowCount"+parentIndex).value;
     let row;
