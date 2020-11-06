@@ -38,7 +38,9 @@ function createDivTableFromArray(data,parentId) {
     addTableToAllTables(getDivInnerId(parentDiv.id),div.id);
     parentDiv.insertBefore(div, document.getElementById("canvas"+parentId));
     dragElement(document.getElementById(div.id));
+    canvas = document.getElementById("canvas"+parentId);
     div.style.left = tableInfo.left.toString() + "px";
+    div.style.top = (tableInfo.top + canvas.getBoundingClientRect().top).toString() + "px";
     reDrawArrows(index);
 
 }
@@ -162,6 +164,8 @@ function toJson(parentId){
             rows = table.rows;
             type = rows[0].cells[rows[0].cells.length-1].id.split("/")[1];
             data.push(type);
+            canvas = document.getElementById(getCanvasIdForParentId(parentId));
+            mainDiv.style.top = (mainDiv.style.top - canvas.getBoundingClientRect().top) + "px";
             tableInfo = mainDiv.getClientRects();
             data.push(tableInfo);
             for(let j =0; j<rows.length;j++){
