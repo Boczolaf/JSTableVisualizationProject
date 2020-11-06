@@ -71,7 +71,7 @@ function createTableFromContent(id, content,indexOfFirstOut,type,parentId){
             cell.id = table.id + "/column" +i +"/out"
             cell.className = "rightSideValues";
         }
-        cell.setAttribute('onclick', 'onClickForFirstRow(this)');
+        cell.setAttribute('onclick', 'onClickForFirstRow(this,'+parentId+')');
         createDeleteButton(cell, "column",parentId);
 
     }
@@ -106,9 +106,9 @@ function createTableFromContent(id, content,indexOfFirstOut,type,parentId){
             } else if ((j === content[currIndex].length - 1 && !typeOfTable)||(typeOfTable &&(j === content[currIndex].length - 1 || j === content[currIndex].length - 2))) {
                 cell.id = table.id + "/connection" + connectionId;
                 connectionId++;
-                cell.setAttribute('onclick', 'onClickConnection(this)');
+                cell.setAttribute('onclick', 'onClickConnection(this,'+parentId+')');
             } else {
-                cell.setAttribute('onclick', 'onClick(this)');
+                cell.setAttribute('onclick', 'onClick(this,'+parentId+')');
                 cell.id = table.id + "/cell" + h;
                 h++;
             }
@@ -128,7 +128,7 @@ function deleteAllTables(parentIndex) {
         if(checkIfTableBelongsInDiv(id,parentIndex)) {
             element = document.getElementById(id);
             if (element) {
-                document.body.removeChild(element);
+                element.parentElement.removeChild(element);
             }
         }
     }
