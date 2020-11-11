@@ -269,10 +269,7 @@ function onClick(element,parentIndex) {
             let newValue = tmpInput.value;
             if (newValue && newValue!==oldValue) {
                 //action is array containing: name , arguments used, other necessary info
-                element.innerText = newValue;
-                let trueValue = "";
-                trueValue += executeInCell(newValue,element);
-                console.log(trueValue);
+                element.innerText = checkCellContent(newValue);
                 addToMemory(parentIndex,oldValue,newValue,"changedNormalField",element.id);
                 if (element.id.includes("row")) {
                     createDeleteButton(element, "row",parentIndex)
