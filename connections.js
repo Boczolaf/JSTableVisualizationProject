@@ -30,9 +30,11 @@ function clearCanvas(){
 function findIdFromName(name) {
     let divTable;
     for(let i = 0;i<=index;i++){
-        divTable = document.getElementById("divTable"+index);
-        if(divTable.childNodes[0].textContent ===name){
-            return divTable.id;
+        divTable = document.getElementById("divTable"+i);
+        if(divTable){
+            if (divTable.childNodes[0].textContent.localeCompare(name)===0) {
+                return divTable.id;
+            }
         }
     }
     return "";

@@ -13,7 +13,6 @@ function checkCellContent(value,element){
         tmpColumn = "[" + tmpColumn.toString() + "]";
         tmpValue = tmpValue.replace(colName,tmpColumn);
     }
-    console.log(tmpValue);
     //try to execute code
     try {
        eval(tmpValue);
