@@ -68,8 +68,8 @@ function insertDataTables(divId){
         tmp = document.createElement("canvas");
         tmp.id = "canvas" +divIndex ;
         canvases.push([divIndex,tmp.id]);
-        tmp.width = 3000;
-        tmp.height = 1500;
+        tmp.width = 10000;
+        tmp.height = 10000;
         tmp.textContent = "Your browser does not support the HTML canvas tag.";
         tmp.className = "canvas";
         div.appendChild(tmp);

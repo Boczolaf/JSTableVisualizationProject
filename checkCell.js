@@ -8,7 +8,7 @@ function checkCellContent(value,element){
         return "";
     }
     for(let i =0; i< columns.length;i++){
-        colName = "#"+columns[i][0];
+        colName = "#"+columns[i][0]+"#";
         tmpColumn = columns[i].slice(1);
         tmpColumn = "[" + tmpColumn.toString() + "]";
         tmpValue = tmpValue.replace(colName,tmpColumn);
