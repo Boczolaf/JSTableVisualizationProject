@@ -3,12 +3,45 @@
 <head>
     <meta charset="UTF-8">
 </head>
-<link rel="stylesheet" type="text/css" href="styles.css">
-<body onload = "loadMacros()">
+<link href="styles.css" rel="stylesheet" type="text/css">
+<body onload="loadMacros()">
 
 <h1>Data tables</h1>
-<div id = "MyNewDiv0">Div1</div>
-<div id = "MyNewDiv1">Div2</div>
+<div id="MyNewDiv0">Div1</div>
+<div id="MyNewDiv1">Div2
+    <form>
+        <label for="tabName1">Insert table name </label><br>
+        <input id="tabName1" name="name" type="text">
+        <label for="tabName1"> Or edit table (type id in the field) </label>
+        <input id="tabId1" name="tabId" type="text">
+        <button id="editTableByIdButton1" onclick="editTableById(1)" type="button">Get</button>
+        <br>
+        <label><input id="tableType1" name="" type="checkbox"><span id="tableTypeText1">Type of table (if checked major)</span></label>
+        <br>
+        <label for="colNames1">Insert columns headers separated with ";", first inputs, then outputs:)</label>
+        <br>
+        <input id="colNames1" name="cols" type="text">
+        <input id="argNames1" name="args" type="text"><br>
+        <label for="rowCount1"> Number of rows </label>
+        <br>
+        <input id="rowCount1" name="undefined" type="text"><br>
+        <button id="addButton1" onclick="setupMainDiv(1)" type="button"> Add table</button>
+    </form>
+    <br>
+    <button id="downloadJson1" onclick="toJson(1)" type="button">download .json file</button>
+    <input id="selectFiles1" type="file">
+    <button id="import1" onclick="fromJson(1)" type="button">upload .json file</button>
+    <br>
+    <p>Hold green or purple element do drag table. Green tables are minor, the purple are major</p><br>
+    <button id="undo1" onclick="undo(1)" type="button">undo</button>
+    <button id="redo1" onclick="redo(1)" type="button">redo</button>
+    <p><label for="editField1">Edit field : </label><input id="editField1" name="editField" type="text">
+        <button id="deleteModeButton1" onclick="switchDeleteMode(1)" type="button">Delete mode</button>
+    </p>
+    <canvas class="canvas" height="10000" id="canvas1" width="10000">Your browser does not support the HTML canvas
+        tag.
+    </canvas>
+</div>
 
 <script src="newTable.js"></script>
 <script src="draggable.js"></script>
@@ -17,6 +50,8 @@
 <script src="json.js"></script>
 <script src="history.js"></script>
 <script src="keyboardMovement.js"></script>
-<script src ="divDataTableInsert.js"></script>
+<script src="divDataTableInsert.js"></script>
+<script src="checkCell.js"></script>
+<script src="example.js"></script>
 </body>
 </html>

@@ -1,8 +1,6 @@
 let divIndex = 0;
 //variable that holds real id and divIndex for each data tables instance
 let divTranslate = [];
-insertDataTables("MyNewDiv0");
-insertDataTables("MyNewDiv1");
 //creating whole top bar
 function insertDataTables(divId){
     if(!checkIfDivIsIn(divId)) {
@@ -60,14 +58,14 @@ function insertDataTables(divId){
         tmp.appendChild(createLabel("editField"+divIndex , "Edit field : "));
         tmp1 =createInput("text", "editField"+divIndex,"editField" );
         tmp.appendChild(tmp1);
-        input.push([divIndex,tmp1.id])
+        input.push([tmp1.id])
         tmp.appendChild(createButton("button", "deleteModeButton"+divIndex , "switchDeleteMode("+divIndex+")", "Delete mode"));
         deleteMode.push(false);
         div.appendChild(tmp);
         // single canvas for testing already in new.html
         tmp = document.createElement("canvas");
         tmp.id = "canvas" +divIndex ;
-        canvases.push([divIndex,tmp.id]);
+        canvases.push(tmp.id);
         tmp.width = 10000;
         tmp.height = 10000;
         tmp.textContent = "Your browser does not support the HTML canvas tag.";
