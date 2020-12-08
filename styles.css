@@ -18,42 +18,50 @@
 }
 .table {
     border : thin solid black;
+    background-color: white;
 }
 .leftSideValues {
     background-color : #6495ED;
-    padding : 20px;
+    padding : 15px;
     border : 1px solid black;
+    font-size: 14px;
 }
 .rightSideValues {
     background-color : #A52A2A;
-    padding : 20px;
+    padding : 15px;
     border : 1px solid black;
+    font-size: 14px;
 }
 .connections {
     background-color : white;
-    padding : 20px;
+    padding : 15px;
     border : 1px solid black;
+    font-size: 14px;
 }
 .normalCell {
     background-color : white;
-    padding : 20px;
+    padding : 15px;
     border : 1px solid black;
+    font-size: 14px;
 
 }
 .normalChosenCell{
     border : 4px solid #03a9fc;
-    padding : 17px;
+    padding : 12px;
     background-color : white;
+    font-size: 14px;
 }
 .rightSideChosenCell {
     background-color : #A52A2A;
     border : 4px solid #03a9fc;
-    padding : 17px;
+    padding : 12px;
+    font-size: 14px;
 }
 .leftSideChosenCell {
     background-color : #6495ED;
     border : 4px solid #03a9fc;
-    padding : 17px;
+    padding : 12px;
+    font-size: 14px;
 }
 .deleteModeButton {
     background-color:  #FF0000;
@@ -64,7 +72,7 @@
 }
 .hoveredRowOrColumn {
     background-color:  black;
-    padding : 20px;
+    padding : 15px;
     color : white;
 }
 .canvas {
