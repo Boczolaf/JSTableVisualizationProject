@@ -83,11 +83,10 @@ function getNextIndex() {
     return index;
 }
 function getInput(parentIndex){
-    for (let i=0;i<input.length;i++){
-        if(input[i][0]===parentIndex){
-            return input[i][1];
-        }
+    if(input[parentIndex]){
+        return input[parentIndex];
     }
+
 }
 
 function setupMainDiv(index) {

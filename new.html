@@ -14,11 +14,15 @@
         <input id="tabName1" name="name" type="text">
         <label for="tabName1"> Or edit table (type id in the field) </label>
         <input id="tabId1" name="tabId" type="text">
-        <button id="editTableByIdButton1" onclick="editTableById(1)" type="button">Get</button>
+        <button id="editTableByIdButton1" onclick="editTableById(1)"
+                type="button">Get</button>
         <br>
-        <label><input id="tableType1" name="" type="checkbox"><span id="tableTypeText1">Type of table (if checked major)</span></label>
+        <label>
+            <input id="tableType1" name="" type="checkbox">
+            <span id="tableTypeText1">Type of table (if checked major)</span></label>
         <br>
-        <label for="colNames1">Insert columns headers separated with ";", first inputs, then outputs:)</label>
+        <label for="colNames1">Insert columns headers separated with ";",
+            first inputs, then outputs:)</label>
         <br>
         <input id="colNames1" name="cols" type="text">
         <input id="argNames1" name="args" type="text"><br>
@@ -32,13 +36,17 @@
     <input id="selectFiles1" type="file">
     <button id="import1" onclick="fromJson(1)" type="button">upload .json file</button>
     <br>
-    <p>Hold green or purple element do drag table. Green tables are minor, the purple are major</p><br>
+    <p>Hold green or purple element do drag table.
+        Green tables are minor, the purple are major</p><br>
     <button id="undo1" onclick="undo(1)" type="button">undo</button>
     <button id="redo1" onclick="redo(1)" type="button">redo</button>
-    <p><label for="editField1">Edit field : </label><input id="editField1" name="editField" type="text">
-        <button id="deleteModeButton1" onclick="switchDeleteMode(1)" type="button">Delete mode</button>
+    <p><label for="editField1">Edit field : </label>
+        <input id="editField1" name="editField" type="text">
+        <button id="deleteModeButton1" onclick="switchDeleteMode(1)"
+                type="button">Delete mode</button>
     </p>
-    <canvas class="canvas" height="10000" id="canvas1" width="10000">Your browser does not support the HTML canvas
+    <canvas class="canvas" height="10000" id="canvas1" width="10000">Your browser
+        does not support the HTML canvas
         tag.
     </canvas>
 </div>

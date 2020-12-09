@@ -3,8 +3,8 @@ let canvases =[];
 let canvas;
 function getCanvasIdForParentId(parentId){
     for(let i=0;i<=index+1;i++){
-        if(canvases[i][0]===parentId){
-            return canvases[i][1];
+        if(canvases[parentId]){
+            return canvases[parentId];
         }
     }
     return "empty";
@@ -19,7 +19,7 @@ function clearCanvas(){
     let tmpCanvas;
     for(let i=0;i<=index;i++){
         if(canvases[i]) {
-            tmpCanvas = document.getElementById(canvases[i][1]);
+            tmpCanvas = document.getElementById(canvases[i]);
             let ctx = tmpCanvas.getContext("2d");
             ctx.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
             ctx.beginPath();
