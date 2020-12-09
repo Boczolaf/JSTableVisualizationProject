@@ -144,9 +144,9 @@ class MemorySlot{
                 cell = rows[i].cells[j];
                 cell.className = "normalCell";
                 if(i!==0){
-                    cell.setAttribute('onclick','onClick(this)');
+                    cell.setAttribute('onclick','onClick(this,'+this.parentId+')');
                     if(j===rows[i].cells.length-1){
-                        cell.setAttribute('onclick','onClickConnection(this)');
+                        cell.setAttribute('onclick','onClickConnection(this,'+this.parentId+')');
                     }
                 }
                 if(cell.id){
@@ -155,7 +155,7 @@ class MemorySlot{
                     cell.innerText = tmp;
                     if(cell.id.includes("column")){
                         createDeleteButton(cell,"column",this.parentId);
-                        cell.setAttribute('onclick','onClickForFirstRow(this)');
+                        cell.setAttribute('onclick','onClickForFirstRow(this,'+this.parentId+')');
                         if(cell.id.includes("in")){
                             cell.className = "leftSideValues"
                         }
