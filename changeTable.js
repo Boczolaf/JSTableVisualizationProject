@@ -51,7 +51,7 @@ function changeDiv(parentIndex) {
             } else {
                 typeOfNext = rows[0].cells[i].id.split("/")[2];
             }
-            if ((!(colsToAddIn[0].localeCompare("") === 0) && ((typeOfNext.localeCompare("out") === 0)||(typeOfNext.localeCompare("null") === 0)) )) {
+            if ((!(colsToAddIn[0].localeCompare("") === 0) && (typeOfNext.localeCompare("out") === 0) )) {
                 for (let k = 0; k < colsToAddIn.length; k++) {
                     cell = rows[0].insertCell(k+1);
                     setInColumnCellForAdding(cell, colsToAddIn[k], table,parentIndex);
@@ -66,7 +66,7 @@ function changeDiv(parentIndex) {
                     }
                 }
                 break;
-            } else if ((!(colsToAddIn[0].localeCompare("") === 0) && typeOfNext.localeCompare("in") === 0)) {
+            } else if ((!(colsToAddIn[0].localeCompare("") === 0) && (typeOfNext.localeCompare("in")=== 0)||(typeOfNext.localeCompare("null") === 0) )) {
                 if (rows[0].cells[i + 1].id.split("/")[2].localeCompare("out") === 0) {
                     for (let k = 0; k < colsToAddIn.length; k++) {
                         cell = rows[0].insertCell(i + 1 + k);
