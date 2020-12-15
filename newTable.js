@@ -89,19 +89,20 @@ function getInput(parentIndex){
 
 }
 
-function setupMainDiv(index) {
-    let parentDiv = document.getElementById(getDivOuterId(index).toString());
+function setupMainDiv(divId) {
+    let parentDiv = document.getElementById(divId);
+    let parentId = getDivInnerId(divId);
     let div = document.createElement("div");
     let currIndex = getNextIndex();
     div.id = "divTable" + currIndex;
     div.style.position = "absolute";
-    div.appendChild(setupHeaderDiv(currIndex,"","null",index));
-    div.appendChild(createNewTable(currIndex,index));
-    parentDiv.insertBefore(div, document.getElementById("canvas"+index));
+    div.appendChild(setupHeaderDiv(currIndex,"","null",parentId));
+    div.appendChild(createNewTable(currIndex,parentId));
+    parentDiv.insertBefore(div, document.getElementById(getCanvasIdForParentId(parentId)));
     dragElement(document.getElementById(div.id));
     let oldTable = "Empty";
     let newTable = div.cloneNode(true);
-    addToMemory(index,oldTable,newTable,"changedTable",[div.id,div.getClientRects()]);
+    addToMemory(parentId,oldTable,newTable,"changedTable",[div.id,div.getClientRects()]);
     addTableToAllTables(getDivInnerId(parentDiv.id),div.id);
 }
 
@@ -385,11 +386,12 @@ function refreshInput(parentId){
     }
 }
 
-function switchDeleteMode(index) {
+function switchDeleteMode(divId) {
+    let parentIndex = getDivInnerId(divId);
     let btn;
-    deleteMode[index] = !deleteMode[index];
-    let switchButton = document.getElementById("deleteModeButton"+index);
-    if (deleteMode[index]) {
+    deleteMode[parentIndex] = !deleteMode[parentIndex];
+    let switchButton = document.getElementById("deleteModeButton"+parentIndex);
+    if (deleteMode[parentIndex]) {
         switchButton.className = "deleteButton";
     } else {
         switchButton.style.backgroundColor = white;
@@ -409,8 +411,8 @@ function switchDeleteMode(index) {
             else{
                 tmp2 = id.split("Header")[0];
             }
-           if(getParentIDFromTableId(tmp2)===index) {
-               if (!deleteMode[index]) {
+           if(getParentIDFromTableId(tmp2)===parentIndex) {
+               if (!deleteMode[parentIndex]) {
                    btn.disabled = true;
                    btn.style.visibility = "hidden";
                } else {

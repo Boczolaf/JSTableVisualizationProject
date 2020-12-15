@@ -1,4 +1,3 @@
-//var canvases = document.getElementsByTagName('canvas');
 let canvases =[];
 let canvas;
 function getCanvasIdForParentId(parentId){

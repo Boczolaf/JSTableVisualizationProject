@@ -1,5 +1,6 @@
 let memory = [];
-function undo(parentId){
+function undo(divId){
+    let parentId = getDivInnerId(divId)
     let curr;
     //first we need to find first(iterating from back) not undone cell with matching parent id and then just undo()
     for(let i=1;i<=memory.length;i++){
@@ -11,8 +12,9 @@ function undo(parentId){
     }
 }
 
-function redo(parentId){
-    //first we need to find first undone cell with matching parent id and then just reddo()
+function redo(divId){
+    let parentId = getDivInnerId(divId)
+    //first we need to find first undone cell with matching parent id and then just redo()
     for(let i=0;i<memory.length;i++){
         if(memory[i].parentId===parentId && memory[i].undone){
             memory[i].redo();

@@ -1,4 +1,5 @@
-function editTableById(parentIndex) {
+function editTableById(divId) {
+    let parentIndex = getDivInnerId(divId);
     let id = document.getElementById("tabId"+parentIndex).value;
     id = findIdFromName(id);
     if (id) {
@@ -23,7 +24,7 @@ function changeDiv(parentIndex) {
     document.getElementById("tableType"+parentIndex).style.visibility = "visible";
     document.getElementById("tableTypeText"+parentIndex).style.visibility = "visible";
     document.getElementById("addButton"+parentIndex).onclick = function () {
-    setupMainDiv(parentIndex)
+    setupMainDiv(getDivOuterId(parentIndex));
     };
     let id = findIdFromName(document.getElementById("tabId"+parentIndex).value);
     let oldTable = document.getElementById(id).cloneNode(true);
@@ -39,6 +40,8 @@ function changeDiv(parentIndex) {
     let colsToAddIn = document.getElementById("colNames"+parentIndex).value.split(";");
     let colsToAddOut = document.getElementById("argNames"+parentIndex).value.split(";");
     let cell;
+    let h=1
+    let maxNormal = getLastNormalCellIndex(table);
     if (colsToAddIn || colsToAddOut) {
         let typeOfNext;
         //getting to right spot (first adding in then out)
@@ -48,13 +51,14 @@ function changeDiv(parentIndex) {
             } else {
                 typeOfNext = rows[0].cells[i].id.split("/")[2];
             }
-            if ((!(colsToAddIn[0].localeCompare("") === 0) && typeOfNext.localeCompare("out") === 0)) {
+            if ((!(colsToAddIn[0].localeCompare("") === 0) && ((typeOfNext.localeCompare("out") === 0)||(typeOfNext.localeCompare("null") === 0)) )) {
                 for (let k = 0; k < colsToAddIn.length; k++) {
                     cell = rows[0].insertCell(k+1);
                     setInColumnCellForAdding(cell, colsToAddIn[k], table,parentIndex);
                     for (let j = 1; j < rows.length; j++) {
                         cell = rows[j].insertCell(k+1);
-                        setNormalCellForAdding(cell);
+                        setNormalCellForAdding(cell,table,parentIndex,maxNormal +h);
+                        h++;
                         if (k === 0) {
                             cell.id = table.id + "/" + "row" + j;
                             createDeleteButton(cell, "row",parentIndex);
@@ -69,7 +73,8 @@ function changeDiv(parentIndex) {
                         setInColumnCellForAdding(cell, colsToAddIn[k], table,parentIndex);
                         for (let j = 1; j < rows.length; j++) {
                             cell = rows[j].insertCell(i + 1 + k);
-                            setNormalCellForAdding(cell);
+                            setNormalCellForAdding(cell,table,parentIndex,maxNormal+h);
+                            h++;
                         }
                     }
                     break;
@@ -89,7 +94,8 @@ function changeDiv(parentIndex) {
                     if (i === 0) {
                         setOutColumnCellForAdding(cell, colsToAddOut[m], table, parentIndex);
                     } else {
-                        setNormalCellForAdding(cell);
+                        setNormalCellForAdding(cell,table,parentIndex,maxNormal+h);
+                        h++;
                         if (rows[0].cells.length - 1 === 0) {
                             cell.id = table.id + "/" + "row" + i;
 
@@ -111,7 +117,8 @@ function changeDiv(parentIndex) {
                 row = table.insertRow(rows.length);
                 for(let j =0; j<rows[0].cells.length;j++){
                     cell = row.insertCell(j);
-                    setNormalCellForAdding(cell);
+                    setNormalCellForAdding(cell,table,parentIndex,maxNormal+h);
+                    h++;
                     if(j===0){
                         cell.id = table.id + "/" + "row" + (rows.length-1);
                         cell.innerText = mainDiv.id+ "/" + "row" + (rows.length-1);
@@ -137,21 +144,22 @@ function setInColumnCellForAdding(cell,value ,table,parentIndex) {
     cell.className = "leftSideValues";
     cell.innerText = value;
     cell.id = table.id + "/" + "column" + (table.rows[0].cells.length + 1) + "/" + "in";
-    cell.setAttribute('onclick', 'onClickForFirstRow(this)');
+    cell.setAttribute('onclick', 'onClickForFirstRow(this,'+parentIndex+')');
     createDeleteButton(cell, "column",parentIndex);
 }
 function setOutColumnCellForAdding(cell, value, table,parentIndex) {
     cell.className = "rightSideValues";
     cell.innerText = value;
     cell.id = table.id + "/" + "column" + (table.rows[0].cells.length + 1) + "/" + "out";
-    cell.setAttribute('onclick', 'onClickForFirstRow(this)');
+    cell.setAttribute('onclick', 'onClickForFirstRow(this,'+parentIndex+')');
     createDeleteButton(cell, "column",parentIndex);
 }
 
-function setNormalCellForAdding(cell) {
+function setNormalCellForAdding(cell,table,parentIndex,maxNormal) {
     cell.className = "normalCell";
     cell.innerText = startValue;
-    cell.setAttribute('onclick', 'onClick(this)');
+    cell.id =  table.id + "/" +"cell" + maxNormal;
+    cell.setAttribute('onclick', 'onClick(this,'+parentIndex+')');
 }
 function setTopRowIdCell(row){
     let cell;
@@ -167,4 +175,16 @@ function cleanUpWrongButtons(table){
         }
     }
 
+}
+function getLastNormalCellIndex(table){
+    let rows = table.rows;
+    let max =0
+    let tmp;
+    for(let i=1;i<rows.length;i++){
+        tmp = parseInt(rows[i].cells[rows[i].cells.length-1].id.split("cell")[1]);
+        if(tmp>max){
+            max = tmp;
+        }
+    }
+    return max;
 }

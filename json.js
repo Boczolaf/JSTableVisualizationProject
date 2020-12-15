@@ -1,9 +1,10 @@
 
-function fromJson(parentId) {
+function fromJson(divId, inputId) {
+    let parentId = getDivInnerId(divId);
     if(typeof currentlyChosenCell !=='string'){
         setCurrentlyChosenCell(currentlyChosenCell,parentId);
     }
-    let files = document.getElementById('selectFiles'+parentId).files;
+    let files = document.getElementById(inputId).files;
     if (files.length <= 0) {
         return false;
     }
@@ -40,9 +41,6 @@ function createDivTableFromArray(data,parentId) {
     dragElement(document.getElementById(div.id));
     canvas = document.getElementById("canvas"+parentId);
     div.style.left = tableInfo.left.toString() + "px";
-    console.log(tableInfo.top + canvas.getBoundingClientRect().top + window.scrollY);
-    console.log(tableInfo.top)
-    console.log(canvas.getBoundingClientRect().top)
     div.style.top = (tableInfo.top + canvas.getBoundingClientRect().top + window.scrollY).toString() + "px";
     reDrawArrows(index);
 
@@ -138,7 +136,8 @@ function deleteAllTables(parentIndex) {
     deleteTablesFromParentId(parentIndex);
 
 }
-function toJson(parentId){
+function toJson(divId){
+    let parentId = getDivInnerId(divId);
     if(typeof currentlyChosenCell !=='string'){
         setCurrentlyChosenCell(currentlyChosenCell,parentId);
     }
