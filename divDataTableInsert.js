@@ -29,7 +29,7 @@ function insertDataTables(divId){
         form.appendChild(tmp);
         form.appendChild(createBr());
         tmpInput = createInput("text", "colNames"+divIndex , "cols" );
-        form.appendChild(createLabel(tmpInput.id, "Insert columns headers separated with \";\", first inputs, then outputs:)"));
+        form.appendChild(createLabel(tmpInput.id, "Insert columns headers separated with \";\", first inputs, then outputs:"));
         form.appendChild(createBr());
         form.appendChild(tmpInput);
         form.appendChild(createInput("text", "argNames"+divIndex , "args" ));
