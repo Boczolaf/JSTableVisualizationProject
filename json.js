@@ -79,14 +79,14 @@ function createTableFromContent(id, content,indexOfFirstOut,type,parentId){
     //connections
     cell = row.insertCell(topLength);
     cell.className = "connections";
-    cell.innerText = "Connections to minor(;=separator)";
+    cell.innerText = "Minor(;=separator)";
     cell.id = table.id + "/minor";
     if(typeOfTable){
         cell = row.insertCell(content[0].length-1);
         cell.className = "connections";
         cell.id = "";
         cell.id = table.id + "/major";
-        cell.innerText = "Connections to major(;=separator)";
+        cell.innerText = "Major(;=separator)";
     }
 
     //rest of data

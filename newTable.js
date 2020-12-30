@@ -108,10 +108,10 @@ function setupMainDiv(divId) {
 
 function setupHeaderDiv(index, value, type, parentIndex) {
     let element = document.createElement("div");
-    let name = document.getElementById("tabName"+parentIndex).value;
+    let name = document.getElementById("tabName"+getDivOuterId(parentIndex)).value;
     let checkedType;
     if(type.localeCompare("null")===0) {
-        checkedType = document.getElementById("tableType"+parentIndex).checked;
+        checkedType = document.getElementById("tableType"+getDivOuterId(parentIndex)).checked;
     }
     else{
         checkedType = type.localeCompare("major")===0;
@@ -139,20 +139,20 @@ function setupHeaderDiv(index, value, type, parentIndex) {
 }
 function createNewTable(index,parentIndex) {
     let table = document.createElement("table");
-    let checkedType = document.getElementById("tableType"+parentIndex).checked;
+    let checkedType = document.getElementById("tableType"+getDivOuterId(parentIndex)).checked;
     table.id = "table" + index;
     table.className = "table";
     //arguments
     //get number of rows
-    let rows = document.getElementById("rowCount"+parentIndex).value;
+    let rows = document.getElementById("rowCount"+getDivOuterId(parentIndex)).value;
     if (!rows) {
         rows = 0;
     } else {
         rows = parseInt(rows);
     }
-    let leftSide = document.getElementById("colNames"+parentIndex);
+    let leftSide = document.getElementById("colNames"+getDivOuterId(parentIndex));
     let leftSideValues = leftSide.value.split(";");
-    let rightSide = document.getElementById("argNames"+parentIndex);
+    let rightSide = document.getElementById("argNames"+getDivOuterId(parentIndex));
     let rightSideValues = rightSide.value.split(";");
     let i;
     let row;
@@ -195,7 +195,7 @@ function createNewTable(index,parentIndex) {
     }
     totalTopLength =row.cells.length;
     cell = row.insertCell(totalTopLength);
-    cell.innerText = "Connections to minor(;=separator)";
+    cell.innerText = "Minor(;=separator)";
     cell.className = "connections";
     cell.id = table.id + "/minor";
     if(checkedType){
@@ -217,7 +217,7 @@ function createNewTable(index,parentIndex) {
         let tmp = rightLen+leftLen +2 ;
         cell = row.insertCell(tmp);
         cell.id = table.id + "/major";
-        cell.innerText = "Connections to major(;=separator)";
+        cell.innerText = "Major(;=separator)";
         cell.className = "connections";
     }
     //entering rest of rows
@@ -390,7 +390,7 @@ function switchDeleteMode(divId) {
     let parentIndex = getDivInnerId(divId);
     let btn;
     deleteMode[parentIndex] = !deleteMode[parentIndex];
-    let switchButton = document.getElementById("deleteModeButton"+parentIndex);
+    let switchButton = document.getElementById("deleteModeButton"+divId);
     if (deleteMode[parentIndex]) {
         switchButton.className = "deleteButton";
     } else {

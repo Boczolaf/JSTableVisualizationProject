@@ -3,11 +3,12 @@ let divIndex = 0;
 let divTranslate = [];
 //creating whole top bar
 function insertDataTables(divId){
+    loadMacros()
     if(!checkIfDivIsIn(divId)) {
         divTranslate.push(divId);
         let div = document.getElementById(divId);
         let form = document.createElement("form");
-        let tmpInput = createInput("text", "tabName" +divIndex , "name" );
+        let tmpInput = createInput("text", "tabName" +divId , "name" );
         let tmp;
         let tmp1;
         form.appendChild(createLabel(tmpInput.id, "Insert table name "));
@@ -15,52 +16,52 @@ function insertDataTables(divId){
         form.appendChild(tmpInput);
         form.appendChild(createLabel(tmpInput.id, " Or edit table (type id in the field) "));
         div.appendChild(form);
-        tmpInput = createInput("text", "tabId" +divIndex, "tabId" );
+        tmpInput = createInput("text", "tabId" +divId, "tabId" );
         form.appendChild(tmpInput);
-        form.appendChild(createButton("button", "editTableByIdButton"+divIndex , "editTableById(\""+divId+"\")", "Get"));
+        form.appendChild(createButton("button", "editTableByIdButton"+divId , "editTableById(\""+divId+"\")", "Get"));
         form.appendChild(createBr());
         tmp = document.createElement("label");
         tmp.class = "switch";
-        tmp.appendChild(createInput("checkbox", "tableType"+divIndex , ""));
+        tmp.appendChild(createInput("checkbox", "tableType"+divId , ""));
         tmp1 = document.createElement("span");
-        tmp1.id = "tableTypeText"+divIndex ;
+        tmp1.id = "tableTypeText"+divId ;
         tmp1.innerText = "Type of table (if checked major)";
         tmp.appendChild(tmp1);
         form.appendChild(tmp);
         form.appendChild(createBr());
-        tmpInput = createInput("text", "colNames"+divIndex , "cols" );
+        tmpInput = createInput("text", "colNames"+divId , "cols" );
         form.appendChild(createLabel(tmpInput.id, "Insert columns headers separated with \";\", first inputs, then outputs:"));
         form.appendChild(createBr());
         form.appendChild(tmpInput);
-        form.appendChild(createInput("text", "argNames"+divIndex , "args" ));
+        form.appendChild(createInput("text", "argNames"+divId , "args" ));
         form.appendChild(createBr());
-        tmpInput = createInput("text", "rowCount"+divIndex );
+        tmpInput = createInput("text", "rowCount"+divId );
         form.appendChild(createLabel(tmpInput.id, " Number of rows ", ""));
         form.appendChild(createBr());
         form.appendChild(tmpInput);
         form.appendChild(createBr());
-        form.appendChild(createButton("button", "addButton"+divIndex , "setupMainDiv(\""+divId+"\")", " Add table"));
+        form.appendChild(createButton("button", "addButton"+divId , "setupMainDiv(\""+divId+"\")", " Add table"));
         div.appendChild(createBr());
 
         tmpInput = document.createElement("input");
         tmpInput.type = "file";
-        tmpInput.id = "selectFiles"+divIndex ;
-        div.appendChild(createButton("button", "downloadJson"+divIndex , "toJson(\""+divId+"\")", "download .json file"));
+        tmpInput.id = "selectFiles"+divId ;
+        div.appendChild(createButton("button", "downloadJson"+divId , "toJson(\""+divId+"\")", "download .json file"));
         div.appendChild(tmpInput);
-        div.appendChild(createButton("button", "import"+divIndex , "fromJson(\""+divId+"\",\""+tmpInput.id+"\")", "upload .json file"));
+        div.appendChild(createButton("button", "import"+divId , "fromJson(\""+divId+"\",\""+tmpInput.id+"\")", "upload .json file"));
         div.appendChild(createBr());
         tmp = document.createElement("p");
         tmp.innerText = "Hold green or purple element do drag table. Green tables are minor, the purple are major";
         div.appendChild(tmp);
         div.appendChild(createBr());
-        div.appendChild(createButton("button", "undo"+divIndex , "undo(\""+divId+"\")", "undo"));
-        div.appendChild(createButton("button", "redo"+divIndex , "redo(\""+divId+"\")", "redo"));
+        div.appendChild(createButton("button", "undo"+divId , "undo(\""+divId+"\")", "undo"));
+        div.appendChild(createButton("button", "redo"+divId , "redo(\""+divId+"\")", "redo"));
         tmp = document.createElement("p");
-        tmp.appendChild(createLabel("editField"+divIndex , "Edit field : "));
-        tmp1 =createInput("text", "editField"+divIndex,"editField" );
+        tmp.appendChild(createLabel("editField"+divId , "Edit field : "));
+        tmp1 =createInput("text", "editField"+divId,"editField" );
         tmp.appendChild(tmp1);
-        input.push([tmp1.id])
-        tmp.appendChild(createButton("button", "deleteModeButton"+divIndex , "switchDeleteMode(\""+divId+"\")", "Delete mode"));
+        input.push(tmp1.id)
+        tmp.appendChild(createButton("button", "deleteModeButton"+divId , "switchDeleteMode(\""+divId+"\")", "Delete mode"));
         deleteMode.push(false);
         div.appendChild(tmp);
         // single canvas for testing already in new.html
@@ -76,6 +77,7 @@ function insertDataTables(divId){
     }
 }
 function init(divId,canvasWidth,canvasHeight, editable){
+    loadMacros()
     if(!checkIfDivIsIn(divId)) {
         divTranslate.push(divId);
         deleteMode.push(false)
