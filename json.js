@@ -1,25 +1,32 @@
 
-function fromJson(divId, inputId) {
+function fromJson(divId, input) {
     let parentId = getDivInnerId(divId);
     if(typeof currentlyChosenCell !=='string'){
         setCurrentlyChosenCell(currentlyChosenCell,parentId);
     }
-    let files = document.getElementById(inputId).files;
+    let files = document.getElementById(input).files;
     if (files.length <= 0) {
-        return false;
-    }
-    let fr = new FileReader();
-    fr.onload = function (e) {
-        //delete all previous tables
-        deleteAllTables(parentId);
         let result = JSON.parse(e.target.result);
         let dataToProcess = result['data'];
         for(let i =0; i< dataToProcess.length;i++){
             createDivTableFromArray(dataToProcess[i],parentId);
         }
-
     }
-    fr.readAsText(files.item(0));
+    else {
+        let fr = new FileReader();
+        fr.onload = function (e) {
+            //delete all previous tables
+            deleteAllTables(parentId);
+            let result = JSON.parse(e.target.result);
+            let dataToProcess = result['data'];
+            for (let i = 0; i < dataToProcess.length; i++) {
+                createDivTableFromArray(dataToProcess[i], parentId);
+            }
+
+        }
+        fr.readAsText(files.item(0));
+    }
+
 }
 function createDivTableFromArray(data,parentId) {
     let title = data[0];
@@ -136,7 +143,7 @@ function deleteAllTables(parentIndex) {
     deleteTablesFromParentId(parentIndex);
 
 }
-function toJson(divId){
+function toJson(divId,download){
     let parentId = getDivInnerId(divId);
     if(typeof currentlyChosenCell !=='string'){
         setCurrentlyChosenCell(currentlyChosenCell,parentId);
@@ -200,7 +207,12 @@ function toJson(divId){
     }
 
     json['data'] = wholeData;
-    downloadObjectAsJson(json,"MyTables")
+    if(download) {
+        downloadObjectAsJson(json, "MyTables")
+    }
+    else {
+        return json
+    }
 
 }
 function downloadObjectAsJson(exportObj, exportName){
