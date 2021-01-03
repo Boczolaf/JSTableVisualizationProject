@@ -34,12 +34,12 @@ Oprócz stworzenia div, należy tak jak w pliku new.html w funkcji loadMyFunctio
 -rowCount + divId -- input ten służy do wpisywania liczby wierszy.
 Lista funkcji:
 -editTableById(divId) -- funkcja ta po sprawdzeniu czy tablica należy do odpowiedniego diva, zmienia wyświetlanie się elementu o id tableType + getDivInnerId(divId) na ukryty, w celu zmiany formatki na formatkę do edycji. Dodatkowo, funkcja zmienia funkcję onlclick elementu o id addButton + getDivInnerId(divId) na funkcję aplikującą zmiany w tabeli, takie jak zmiana nazwy, dodanie kolumn i/lub wierszy przez edycję inputu o id colNames + getDivInnerId(divId), inputu argNames + getDivInnerId(divId), oraz o edycję inputu rowCount + getDivInnerId(divId).
-    -setupMainDiv(divId) -- funkcja ta tworzy nową tabelę w div id równym divId, pobierając informację z inputu o id tabName + getDivInnerId(divId), inputu o id  colNames + getDivInnerId(divId), inputu argNames + getDivInnerId(divId), inputu o id rowCount + getDivInnerId(divId) oraz z checkbox'a o id tableType + getDivInnerId(divId).
-    -toJson(divId,download) -- funkcja ta zapisuje wszystkie tabele z div o id równym divId, do formatu .json, po czym jeśli download równy jest prawdzie, rozpoczyna pobieranie utworzonego pliku. Jeśli jednak download jest ustawiony jako fałsz, funkcja zwróci obiekt .json.
-    -fromJson(divId,input) -- funkcja ta odczytuje wybrany w elemencie input o id input, plik .json lub jeśli nie jest to input, czyta wprost z elementu. Następnie funkcja ta czyści wszystkie tablice z div o id równym divId, po czym wczytuje wszystkie tablice z pliku lub z wejścia .json.
-    -undo(divId) -- funkcje dodające lub zmieniające tablice dodają do pamięci informację o zmianach. Funkcja ta odczytuje ostatnią zmianę w div o id równym divId,po czym przywraca stan do stanu przed zmianą.
-     -redo(divId) -- funkcja ta odczytuje ostatnią cofniętą zmianę w div o id równym divId, po czym przywraca stan do stanu po zmianie.
-     -switchDeleteMode(divId) -- funckcja ta przełącza deleteMode dla div o id równym divId. Tryb usuwania (deleteMode) odpowiada za ukrycie lub ukazanie przycisków do usuwania kolumn i wierszy.
+-setupMainDiv(divId) -- funkcja ta tworzy nową tabelę w div id równym divId, pobierając informację z inputu o id tabName + getDivInnerId(divId), inputu o id  colNames +            getDivInnerId(divId), inputu argNames + getDivInnerId(divId), inputu o id rowCount + getDivInnerId(divId) oraz z checkbox'a o id tableType + getDivInnerId(divId).
+-toJson(divId,download) -- funkcja ta zapisuje wszystkie tabele z div o id równym divId, do formatu .json, po czym jeśli download równy jest prawdzie, rozpoczyna pobieranie        utworzonego pliku. Jeśli jednak download jest ustawiony jako fałsz, funkcja zwróci obiekt .json.
+-fromJson(divId,input) -- funkcja ta odczytuje wybrany w elemencie input o id input, plik .json lub jeśli nie jest to input, czyta wprost z elementu. Następnie funkcja ta          czyści wszystkie tablice z div o id równym divId, po czym wczytuje wszystkie tablice z pliku lub z wejścia .json.
+-undo(divId) -- funkcje dodające lub zmieniające tablice dodają do pamięci informację o zmianach. Funkcja ta odczytuje ostatnią zmianę w div o id równym divId,po czym              przywraca stan do stanu przed zmianą.
+ -redo(divId) -- funkcja ta odczytuje ostatnią cofniętą zmianę w div o id równym divId, po czym przywraca stan do stanu po zmianie.
+ -switchDeleteMode(divId) -- funckcja ta przełącza deleteMode dla div o id równym divId. Tryb usuwania (deleteMode) odpowiada za ukrycie lub ukazanie przycisków do usuwania        kolumn i wierszy.
 
 ## Źródła i inne
 https://docs.google.com/document/d/1G-Bu3y2FyxGvGvYSgwIfbiWQJuW5nnagwibTRSHJejs/edit?usp=sharing
