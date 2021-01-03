@@ -31,10 +31,15 @@ Aby rozpocząć proces tworzenia własnego interfejsu lub formatki wymagane jest
 Oprócz stworzenia div, należy tak jak w pliku new.html w funkcji loadMyFunctions(), użyć funkcjiinit(divId,canvasWidth,canvasHeight, editable), gdzie kolejno divId to id div w którym powstaje interfejs, canvasWidth to szerokość tworzonego elementu typu canvas, canvasHeight to wysokość elementu canvas, a editable to opcjonalnie id elementu typu input z którego mają być pobierane dane do edycji lub jeśli nie pożądana jest możliwość wprowadzania zmian -- pusty string. Dodatkowo, jeśli chcemy umożliwić edycję tabel, wymagane jest aby powstały odpowiednie elementy typu input, o następujących id, gdzie wszystkie wstawki z  divId oznaczją aby do danej nazwy dodać w kontekście łączenia stringów divId:
 
 -tabName + divId -- input ten służy do wpisywania nazwy tabel,
+
 -tabId + divId -- input ten służy do wpisywania id tabeli do edycji,
+
 -tableType +divId -- checkbox ten służy zaznaczania typu tabel (zaznaczony oznacza major),
--colNames + divId -- input ten służy do wpisywania po znaku ; nazwy kolumn typu in,
--argNames + divId -- input ten służy do wpisywania po znaku ; nazwy kolumn typu out,
+
+-colNames + divId -- input ten służy do wpisywania po znaku ; nazwy kolumn typu warunkowego,
+
+-argNames + divId -- input ten służy do wpisywania po znaku ; nazwy kolumn typu decyzyjnego,
+
 -rowCount + divId -- input ten służy do wpisywania liczby wierszy.
 
 Lista funkcji:
